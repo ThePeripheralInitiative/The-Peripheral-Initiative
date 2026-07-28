@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Peripheral Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:        #070a08;
+    --panel:       #0e140f;
+    --panel-light: #162018;
+    --matrix:      #2fe374;
+    --decay:       #123821;
+    --resolved:    #e2ede4;
+    --muted:       #6f8577;
+    --gold:        #ffd76a;
+    --danger:      #ff5c5c;
+    --flash:       #b6ffd8;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(7,10,8,0.96);
+    border-bottom: 1px solid var(--decay);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .brand-name {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--matrix);
+    text-shadow: 0 0 12px rgba(47,227,116,0.3);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .brand-sub {
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  nav {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-btn:hover { color: var(--resolved); background: var(--panel); }
+  .nav-btn.active { color: var(--matrix); background: var(--panel-light); }
+
+  .auth-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .auth-status {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .auth-status.verified { color: var(--matrix); }
+
+  .btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--decay);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost { background: transparent; color: var(--muted); }
+  .btn-ghost:hover { color: var(--resolved); border-color: var(--muted); }
+
+  .btn-primary {
+    background: var(--matrix);
+    color: var(--void);
+    border-color: var(--matrix);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { background: var(--flash); border-color: var(--flash); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Sections ────────────────────────────────────────────── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 44px 28px 80px;
+  }
+
+  .section-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--matrix);
+    margin-bottom: 28px;
+    text-shadow: 0 0 16px rgba(47,227,116,0.2);
+  }
+
+  /* ── Forum ───────────────────────────────────────────────── */
+  .forum-layout {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 28px;
+  }
+
+  .sidebar-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .genre-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    transition: all 0.15s;
+  }
+
+  .genre-btn:hover { background: var(--panel); color: var(--resolved); }
+  .genre-btn.active { background: var(--panel-light); color: var(--matrix); }
+
+  .forum-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .forum-top strong { font-size: 0.82rem; }
+
+  .browse-note {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .thread-card {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .thread-card:hover { border-color: var(--muted); }
+
+  .thread-tag {
+    display: inline-block;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: var(--matrix);
+    background: rgba(47,227,116,0.09);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .thread-title {
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 5px;
+    color: var(--resolved);
+  }
+
+  .thread-meta {
+    color: var(--muted);
+    font-size: 0.65rem;
+    margin-bottom: 10px;
+  }
+
+  .thread-actions { display: flex; align-items: center; gap: 10px; }
+
+  .reply-btn {
+    background: var(--panel-light);
+    border: 1px solid var(--decay);
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .reply-btn:hover { border-color: var(--matrix); color: var(--matrix); }
+  .lock-hint { color: var(--muted); font-size: 0.65rem; }
+
+  /* ── Artists & Labels ────────────────────────────────────── */
+  .artist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .artist-card {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 10px;
+    padding: 18px;
+    transition: border-color 0.2s;
+  }
+
+  .artist-card:hover { border-color: var(--muted); }
+
+  .artist-art {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--decay), var(--panel-light));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .artist-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(47,227,116,0.06));
+  }
+
+  .artist-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    color: var(--resolved);
+  }
+
+  .artist-label-text {
+    color: var(--muted);
+    font-size: 0.68rem;
+    margin-bottom: 10px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.58rem;
+    padding: 2px 9px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .badge-verified { color: var(--matrix); border: 1px solid var(--matrix); }
+  .badge-pending  { color: var(--muted);  border: 1px solid var(--decay); }
+
+  .policy-callout {
+    background: var(--panel);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── About Us ────────────────────────────────────────────── */
+  .about-copy {
+    max-width: 640px;
+    font-size: 0.88rem;
+    line-height: 2;
+    color: var(--resolved);
+  }
+
+  .about-copy p + p { margin-top: 20px; }
+
+  /* ── Explore ─────────────────────────────────────────────── */
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .explore-card {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 10px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .explore-card:hover { border-color: var(--muted); }
+
+  .explore-icon { font-size: 1.8rem; margin-bottom: 12px; }
+
+  .explore-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: var(--resolved);
+  }
+
+  .explore-status { font-size: 0.65rem; color: var(--muted); }
+  .explore-status.live { color: var(--matrix); }
+  .explore-status a { color: var(--matrix); text-decoration: none; }
+  .explore-status a:hover { text-decoration: underline; }
+
+  /* ── Modal ───────────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,7,6,0.9);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal-card {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 14px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .modal-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .modal-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--matrix);
+    margin-bottom: 10px;
+  }
+
+  .modal-body {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .modal-body em { color: var(--resolved); font-style: normal; }
+
+  .field-input {
+    width: 100%;
+    background: var(--panel-light);
+    border: 1.5px solid var(--decay);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field-input:focus  { border-color: var(--matrix); }
+  .field-input.valid  { border-color: var(--matrix); }
+  .field-input.invalid{ border-color: var(--danger); }
+
+  .field-msg {
+    font-size: 0.65rem;
+    margin: 7px 0 14px;
+    min-height: 14px;
+  }
+
+  .field-msg.neutral { color: var(--muted); }
+  .field-msg.valid   { color: var(--matrix); }
+  .field-msg.invalid { color: var(--danger); }
+
+  .policy-note {
+    background: var(--panel-light);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.62rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .modal-btns { display: flex; gap: 10px; }
+  .modal-btns .btn { flex: 1; text-align: center; }
+
+  .modal-footer {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .modal-footer span {
+    color: var(--matrix);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* ── Matrix rain background ──────────────────────────────── */
+  #rain-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  /* ── Toast ───────────────────────────────────────────────── */
+  #toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel-light);
+    border: 1px solid var(--decay);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+    z-index: 200;
+    white-space: nowrap;
+  }
+
+  header, .section, .modal-overlay {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="rain-canvas"></canvas>
+
+<header>
+  <div class="brand">
+    <div class="brand-name">THE PERIPHERAL INITIATIVE</div>
+    <div class="brand-sub">Forum · EDM & All Its Sub-Genres</div>
+  </div>
+  <nav>
+    <button class="nav-btn active" onclick="setSection('forum', this)">Forum</button>
+    <button class="nav-btn" onclick="setSection('artists', this)">Artists &amp; Labels</button>
+    <button class="nav-btn" onclick="setSection('about', this)">About Us</button>
+    <button class="nav-btn" onclick="setSection('explore', this)">Explore</button>
+  </nav>
+  <div class="auth-area">
+    <div class="auth-status" id="auth-status">browsing anonymously</div>
+    <button class="btn btn-ghost" id="login-btn" onclick="openLogin()">Log In</button>
+    <button class="btn btn-primary" id="signup-btn" onclick="openSignup()">Sign Up to Contribute</button>
+  </div>
+</header>
+
+<!-- ── Forum ─────────────────────────────────────────────── -->
+<div class="section active" id="section-forum">
+  <div class="section-inner">
+    <div class="section-eyebrow">Genre-Based Community</div>
+    <div class="section-title">Forum</div>
+    <div class="forum-layout">
+      <div>
+        <div class="sidebar-title">Genres</div>
+        <button class="genre-btn active" onclick="setGenre('All', this)">All</button>
+        <button class="genre-btn" onclick="setGenre('House', this)">House</button>
+        <button class="genre-btn" onclick="setGenre('Techno', this)">Techno</button>
+        <button class="genre-btn" onclick="setGenre('Trance', this)">Trance</button>
+        <button class="genre-btn" onclick="setGenre('Bass / Dubstep', this)">Bass / Dubstep</button>
+        <button class="genre-btn" onclick="setGenre('Drum &amp; Bass', this)">Drum &amp; Bass</button>
+        <button class="genre-btn" onclick="setGenre('Hardstyle', this)">Hardstyle / Hardcore</button>
+        <button class="genre-btn" onclick="setGenre('Regional', this)">Regional / Scene-Specific</button>
+      </div>
+      <div>
+        <div class="forum-top">
+          <strong>Threads</strong>
+          <button class="btn btn-ghost" onclick="attemptContribute('start a new thread')">+ New Thread</button>
+        </div>
+        <div class="browse-note" id="browse-note">
+          Anyone can read every thread here without an account. Posting or replying requires a verified account — one email or phone number, tied permanently to one username.
+        </div>
+        <div id="thread-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Artists & Labels ──────────────────────────────────── -->
+<div class="section" id="section-artists">
+  <div class="section-inner">
+    <div class="section-eyebrow">Independent Artists &amp; Labels</div>
+    <div class="section-title">Artists &amp; Labels</div>
+    <div class="artist-grid">
+      <div class="artist-card">
+        <div class="artist-art"></div>
+        <div class="artist-name">Ghost Channel</div>
+        <div class="artist-label-text">Independent · Melodic Techno</div>
+        <span class="badge badge-verified">✓ Verified</span>
+      </div>
+      <div class="artist-card">
+        <div class="artist-art"></div>
+        <div class="artist-name">Midnight Presser</div>
+        <div class="artist-label-text">Static Groove Records</div>
+        <span class="badge badge-verified">✓ Verified</span>
+      </div>
+      <div class="artist-card">
+        <div class="artist-art"></div>
+        <div class="artist-name">Bass Frequency</div>
+        <div class="artist-label-text">Independent · Riddim</div>
+        <span class="badge badge-pending">Pending Verification</span>
+      </div>
+      <div class="artist-card">
+        <div class="artist-art"></div>
+        <div class="artist-name">Vinyl Vortex</div>
+        <div class="artist-label-text">Independent · House</div>
+        <span class="badge badge-verified">✓ Verified</span>
+      </div>
+    </div>
+    <div class="policy-callout">
+      Hybrid hosting: artists can host tracks directly here and/or link out to Spotify, SoundCloud, or Bandcamp. Verification requires evidence of genuine existing distribution. AI as a tool in a real artist's process is permitted — fully AI-generated music with no artist behind it is not.
+    </div>
+  </div>
+</div>
+
+<!-- ── About Us ──────────────────────────────────────────── -->
+<div class="section" id="section-about">
+  <div class="section-inner">
+    <div class="section-eyebrow">Who We Are</div>
+    <div class="section-title">About Us</div>
+    <div class="about-copy">
+      <p>The Peripheral Initiative is a collective of music ideologies that exists on the edge of how music is discovered, and how it is supposed to be heard. Your peripheral vision senses movement before your eyes ever confirm it: a presence, a shift, something real before it has a shape. This is built the same way. There's no single voice behind it. There doesn't need to be.</p>
+      <p>The Peripheral Initiative is driven by the independence and freedom at the heart of EDM. By giving users a platform to build community, discover new music, and connect with one another, it offers Independent Artists and Labels an EDM-centric space built around their courage and freedom of expression. Without artistic expression, there is no creativity: no exploration.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Explore ───────────────────────────────────────────── -->
+<div class="section" id="section-explore">
+  <div class="section-inner">
+    <div class="section-eyebrow">Beyond the Forum</div>
+    <div class="section-title">Explore</div>
+    <div class="explore-grid">
+      <div class="explore-card">
+        <div class="explore-icon">🌐</div>
+        <div class="explore-label">Socials</div>
+        <div class="explore-status live"><a href="https://www.instagram.com/Peripheral.Initiative" target="_blank">@Peripheral.Initiative</a></div>
+      </div>
+      <div class="explore-card">
+        <div class="explore-icon">🛍️</div>
+        <div class="explore-label">Merchandise</div>
+        <div class="explore-status">Coming Soon</div>
+      </div>
+      <div class="explore-card">
+        <div class="explore-icon">📱</div>
+        <div class="explore-label">Dis-GO App</div>
+        <div class="explore-status">Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal ─────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card" id="modal-content"></div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────
+let isVerified = false;
+let chosenAlias = '';
+let chosenIdentity = '';
+let signupStep = 1;
+const REGISTERED = [];
+
+const RESERVED_IDENTITIES = ['test@example.com', '5555555555'];
+const RESERVED_NAMES = ['admin','administrator','moderator','staff','official','peripheralteam','support'];
+
+function normalize(s) {
+  return s.toLowerCase()
+    .replace(/1/g,'i').replace(/0/g,'o').replace(/3/g,'e')
+    .replace(/4/g,'a').replace(/5/g,'s').replace(/[^a-z]/g,'');
+}
+
+// ── Navigation ────────────────────────────────────────────
+function setSection(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Forum ─────────────────────────────────────────────────
+const THREADS = [
+  { genre:'House',        title:'Best tech house releases of the month?',                     author:'CrateDigga207',  replies:14, time:'2h ago' },
+  { genre:'Techno',       title:'Melodic techno vs hard techno — where do you draw the line', author:'GhostChannel',   replies:31, time:'5h ago' },
+  { genre:'Bass / Dubstep',title:'Riddim producers worth following in 2026',                  author:'BassFrequency',  replies:8,  time:'1d ago' },
+  { genre:'Regional',     title:'Amapiano crossing into western house sets — thoughts?',       author:'MidnightPresser',replies:22, time:'1d ago' },
+  { genre:'Drum & Bass',  title:'Liquid D&B for a Sunday morning drive',                       author:'VinylVortex',    replies:6,  time:'2d ago' },
+];
+
+let currentGenre = 'All';
+
+function setGenre(genre, btn) {
+  currentGenre = genre;
+  document.querySelectorAll('.genre-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderThreads();
+}
+
+function renderThreads() {
+  const list = document.getElementById('thread-list');
+  const filtered = currentGenre === 'All' ? THREADS : THREADS.filter(t => t.genre === currentGenre);
+  if (!filtered.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:0.78rem;padding:14px 0;">No threads in this genre yet — be the first to start one.</div>';
+    return;
+  }
+  list.innerHTML = filtered.map(t => `
+    <div class="thread-card">
+      <div class="thread-tag">${t.genre.toUpperCase()}</div>
+      <div class="thread-title">${t.title}</div>
+      <div class="thread-meta">${t.author} · ${t.replies} replies · ${t.time}</div>
+      <div class="thread-actions">
+        <button class="reply-btn" onclick="attemptContribute('reply to this thread')">${isVerified ? 'Reply' : '🔒 Reply'}</button>
+        ${!isVerified ? '<span class="lock-hint">Sign up to join the conversation</span>' : ''}
+      </div>
+    </div>`).join('');
+}
+
+function attemptContribute(action) {
+  if (isVerified) {
+    showToast('Opens the compose box as ' + chosenAlias);
+  } else {
+    openSignup();
+  }
+}
+
+// ── Toast ─────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => { t.style.opacity = '0'; }, 2600);
+}
+
+// ── Auth modal ────────────────────────────────────────────
+function openSignup() {
+  if (isVerified) return;
+  signupStep = 1;
+  renderSignupStep();
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+function renderSignupStep() {
+  const c = document.getElementById('modal-content');
+  if (signupStep === 1) {
+    c.innerHTML = `
+      <div class="modal-eyebrow">Step 1 of 3</div>
+      <div class="modal-title">When's your birthday?</div>
+      <div class="modal-body">The Peripheral Initiative requires users to be 18 or older.</div>
+      <input type="date" class="field-input" id="birthdate-input">
+      <div class="field-msg neutral" id="age-msg"></div>
+      <div class="modal-btns">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="checkAge()">Continue</button>
+      </div>`;
+  }
+  if (signupStep === 1.5) {
+    c.innerHTML = `
+      <div class="modal-eyebrow">Age Verification</div>
+      <div class="modal-title" style="color:var(--danger);">This platform is 16+</div>
+      <div class="modal-body">Based on the birthdate entered, this account doesn't meet the minimum age requirement.</div>
+      <div class="modal-btns">
+        <button class="btn btn-ghost" style="flex:1;" onclick="signupStep=1;renderSignupStep();">Back</button>
+      </div>`;
+  }
+  if (signupStep === 2) {
+    c.innerHTML = `
+      <div class="modal-eyebrow">Step 2 of 3</div>
+      <div class="modal-title">Verify one contact method</div>
+      <div class="modal-body">One email or phone number per person, permanently tied to your username. A new account later requires a different contact method <em>and</em> a never-used username.</div>
+      <input type="text" class="field-input" id="identity-input" placeholder="Email or phone number" oninput="onIdentityInput()">
+      <div class="field-msg neutral" id="identity-msg"></div>
+      <div class="modal-btns">
+        <button class="btn btn-ghost" onclick="signupStep=1;renderSignupStep();">Back</button>
+        <button class="btn btn-primary" id="identity-continue" disabled onclick="goToUsernameStep()">Continue</button>
+      </div>`;
+  }
+  if (signupStep === 3) {
+    c.innerHTML = `
+      <div class="modal-eyebrow">Step 3 of 3</div>
+      <div class="modal-title">Choose your alias</div>
+      <div class="modal-body">This is what other users see on the forum.</div>
+      <input type="text" class="field-input" id="alias-input" placeholder="e.g. VinylVortex" oninput="onAliasInput()">
+      <div class="field-msg neutral" id="alias-msg"></div>
+      <div class="policy-note">🛡️ Offensive, hateful, or impersonating usernames are never allowed — no exceptions. Checked automatically, and reportable after the fact.</div>
+      <div class="modal-btns">
+        <button class="btn btn-ghost" onclick="signupStep=2;renderSignupStep();">Back</button>
+        <button class="btn btn-primary" id="alias-continue" disabled onclick="finishSignup()">Create Account</button>
+      </div>`;
+  }
+}
+
+function checkAge() {
+  const inp = document.getElementById('birthdate-input');
+  const msg = document.getElementById('age-msg');
+  if (!inp.value) { msg.className='field-msg invalid'; msg.textContent='Please enter your birthdate.'; return; }
+  const birth = new Date(inp.value);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+  signupStep = age < 18 ? 1.5 : 2;
+  renderSignupStep();
+}
+
+function onIdentityInput() {
+  const inp = document.getElementById('identity-input');
+  const msg = document.getElementById('identity-msg');
+  const btn = document.getElementById('identity-continue');
+  const val = inp.value.trim().toLowerCase();
+  if (!val) { inp.className='field-input'; msg.className='field-msg neutral'; msg.textContent='Verified once per account.'; btn.disabled=true; return; }
+  if (RESERVED_IDENTITIES.includes(val) || REGISTERED.find(a=>a.identity===val)) {
+    inp.className='field-input invalid'; msg.className='field-msg invalid'; msg.textContent='This contact method is already linked to another account.'; btn.disabled=true; return;
+  }
+  inp.className='field-input valid'; msg.className='field-msg valid'; msg.textContent='Looks good — a verification code would be sent here.'; btn.disabled=false;
+}
+
+function goToUsernameStep() {
+  chosenIdentity = document.getElementById('identity-input').value.trim().toLowerCase();
+  signupStep = 3; renderSignupStep();
+}
+
+function onAliasInput() {
+  const inp = document.getElementById('alias-input');
+  const msg = document.getElementById('alias-msg');
+  const btn = document.getElementById('alias-continue');
+  const trimmed = inp.value.trim();
+  if (!trimmed) { inp.className='field-input'; msg.className='field-msg neutral'; msg.textContent="Pick something that's yours."; btn.disabled=true; return; }
+  if (trimmed.length < 3) { inp.className='field-input invalid'; msg.className='field-msg invalid'; msg.textContent='Too short — at least 3 characters.'; btn.disabled=true; return; }
+  if (RESERVED_NAMES.some(n => normalize(trimmed).includes(n))) { inp.className='field-input invalid'; msg.className='field-msg invalid'; msg.textContent="That name isn't available."; btn.disabled=true; return; }
+  inp.className='field-input valid'; msg.className='field-msg valid'; msg.textContent='Looks good.'; btn.disabled=false; chosenAlias=trimmed;
+}
+
+function finishSignup() {
+  isVerified = true;
+  REGISTERED.push({ identity: chosenIdentity, alias: chosenAlias });
+  closeModal();
+  document.getElementById('auth-status').textContent = 'signed in as ' + chosenAlias;
+  document.getElementById('auth-status').classList.add('verified');
+  document.getElementById('signup-btn').style.display = 'none';
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('browse-note').innerHTML = 'You\u2019re verified — replies and new threads now post under <strong>' + chosenAlias + '</strong>.';
+  renderThreads();
+}
+
+// ── Login ─────────────────────────────────────────────────
+function openLogin() {
+  if (isVerified) return;
+  const c = document.getElementById('modal-content');
+  c.innerHTML = `
+    <div class="modal-eyebrow">Log In</div>
+    <div class="modal-title">Welcome back</div>
+    <div class="modal-body">Enter the email or phone number tied to your account.</div>
+    <input type="text" class="field-input" id="login-input" placeholder="Email or phone number">
+    <div class="field-msg neutral" id="login-msg"></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitLogin()">Log In</button>
+    </div>
+    <div class="modal-footer">No account yet? <span onclick="openSignup()">Sign up instead</span> &nbsp;·&nbsp; <span onclick="openUsernameLookup()">Forgot your username?</span></div>`;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function submitLogin() {
+  const inp = document.getElementById('login-input');
+  const msg = document.getElementById('login-msg');
+  const val = inp.value.trim().toLowerCase();
+  const match = REGISTERED.find(a => a.identity === val);
+  if (!match) { inp.className='field-input invalid'; msg.className='field-msg invalid'; msg.textContent='No account found with that contact method.'; return; }
+  isVerified = true; chosenAlias = match.alias;
+  closeModal();
+  document.getElementById('auth-status').textContent = 'signed in as ' + chosenAlias;
+  document.getElementById('auth-status').classList.add('verified');
+  document.getElementById('signup-btn').style.display = 'none';
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('browse-note').innerHTML = 'You\u2019re verified — replies and new threads now post under <strong>' + chosenAlias + '</strong>.';
+  renderThreads();
+}
+
+function openUsernameLookup() {
+  const c = document.getElementById('modal-content');
+  c.innerHTML = `
+    <div class="modal-eyebrow">Username Lookup</div>
+    <div class="modal-title">What's my username?</div>
+    <div class="modal-body">Enter the email or phone number you verified when you signed up.</div>
+    <input type="text" class="field-input" id="lookup-input" placeholder="Email or phone number">
+    <div class="field-msg neutral" id="lookup-msg"></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="openLogin()">Back</button>
+      <button class="btn btn-primary" onclick="submitLookup()">Look Up</button>
+    </div>`;
+}
+
+function submitLookup() {
+  const inp = document.getElementById('lookup-input');
+  const msg = document.getElementById('lookup-msg');
+  const val = inp.value.trim().toLowerCase();
+  const match = REGISTERED.find(a => a.identity === val);
+  if (!match) { inp.className='field-input invalid'; msg.className='field-msg invalid'; msg.textContent='No account found with that contact method.'; return; }
+  inp.className='field-input valid'; msg.className='field-msg valid'; msg.textContent='Your username is: ' + match.alias;
+}
+
+// ── Init ──────────────────────────────────────────────────
+renderThreads();
+
+// ── Ambient matrix rain ───────────────────────────────────
+(function() {
+  const canvas = document.getElementById('rain-canvas');
+  const ctx = canvas.getContext('2d');
+  const CHARS = "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+-/<>#$%";
+  const COLORS = ['#3ee8ff','#b06bff','#ff5fc9','#4c8bff','#28e6b8'];
+  const FONT_SIZE = 14;
+  let columns, drops, colColors;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    columns   = Math.floor(canvas.width / FONT_SIZE);
+    drops     = Array(columns).fill(1);
+    colColors = Array.from({ length: columns }, () => COLORS[Math.floor(Math.random() * COLORS.length)]);
+  }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(7,10,8,0.028)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = FONT_SIZE + 'px JetBrains Mono, monospace';
+    for (let i = 0; i < columns; i++) {
+      const char = CHARS[Math.floor(Math.random() * CHARS.length)];
+      ctx.fillStyle = colColors[i];
+      ctx.fillText(char, i * FONT_SIZE, drops[i] * FONT_SIZE);
+      if (drops[i] * FONT_SIZE > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  setInterval(draw, 55);
+})();
+</script>
+</body>
+</html>
