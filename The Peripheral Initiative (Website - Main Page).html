@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Peripheral Initiative</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+  :root {
+    --void: #070a08;
+    --panel: #0e140f;
+    --panel-light: #162018;
+    --text: #e2ede4;
+    --muted: #6f8577;
+    --matrix: #2fe374;
+    --decay: #123821;
+    --gold: #ffd76a;
+    --danger: #ff5c5c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; }
+
+  /* --- Header / Nav --- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--decay);
+    position: sticky;
+    top: 0;
+    background: rgba(7,10,8,0.95);
+    z-index: 30;
+  }
+
+  .brand {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    color: var(--matrix);
+    text-shadow: 0 0 10px rgba(47,227,116,0.35);
+  }
+
+  nav {
+    display: flex;
+    gap: 6px;
+  }
+
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .nav-btn.active {
+    color: var(--matrix);
+    background: var(--panel-light);
+  }
+
+  .auth-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .auth-status {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .auth-status.verified { color: var(--matrix); }
+
+  .btn {
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--matrix);
+    color: var(--void);
+  }
+
+  .btn-secondary {
+    background: var(--panel-light);
+    color: var(--text);
+    border: 1px solid var(--decay);
+  }
+
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* --- Sections --- */
+  .section { display: none; max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section.active { display: block; }
+
+  .section-eyebrow {
+    color: var(--muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--matrix);
+    margin-bottom: 24px;
+    text-shadow: 0 0 10px rgba(47,227,116,0.25);
+  }
+
+  /* --- Forum layout --- */
+  .forum-layout { display: flex; gap: 28px; }
+  .sidebar { width: 200px; flex-shrink: 0; }
+  .sidebar-title { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+  .genre-item {
+    display: block; width: 100%; text-align: left; background: transparent; border: none;
+    color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    padding: 8px 10px; border-radius: 6px; cursor: pointer; margin-bottom: 2px;
+  }
+  .genre-item.selected { background: var(--panel-light); color: var(--matrix); }
+
+  .main-col { flex: 1; min-width: 0; }
+  .main-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+
+  .browse-note {
+    background: var(--panel); border: 1px solid var(--decay); border-radius: 10px;
+    padding: 12px 16px; font-size: 0.76rem; color: var(--muted); margin-bottom: 18px;
+  }
+
+  .thread-card { background: var(--panel); border: 1px solid var(--decay); border-radius: 10px; padding: 15px 17px; margin-bottom: 10px; }
+  .thread-genre-tag {
+    display: inline-block; font-size: 0.6rem; color: var(--matrix); background: rgba(47,227,116,0.1);
+    padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; letter-spacing: 0.04em;
+  }
+  .thread-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 5px; }
+  .thread-meta { color: var(--muted); font-size: 0.68rem; margin-bottom: 10px; }
+  .thread-actions { display: flex; align-items: center; gap: 10px; }
+  .reply-btn { background: var(--panel-light); color: var(--text); border: 1px solid var(--decay); padding: 6px 12px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-family: 'JetBrains Mono', monospace; }
+  .lock-hint { color: var(--muted); font-size: 0.68rem; }
+
+  /* --- Artists & Labels --- */
+  .artist-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .artist-card { background: var(--panel); border: 1px solid var(--decay); border-radius: 12px; padding: 18px; }
+  .artist-art { width: 100%; aspect-ratio: 1; border-radius: 10px; background: linear-gradient(135deg, var(--decay), var(--matrix)); margin-bottom: 12px; opacity: 0.8; }
+  .artist-name { font-weight: 700; font-size: 0.92rem; margin-bottom: 4px; }
+  .artist-label { color: var(--muted); font-size: 0.7rem; margin-bottom: 8px; }
+  .verified-tag { display: inline-block; font-size: 0.6rem; color: var(--matrix); border: 1px solid var(--matrix); padding: 2px 8px; border-radius: 999px; }
+  .unverified-tag { display: inline-block; font-size: 0.6rem; color: var(--muted); border: 1px solid var(--decay); padding: 2px 8px; border-radius: 999px; }
+
+  .policy-callout { background: var(--panel); border-left: 3px solid var(--gold); border-radius: 8px; padding: 14px 16px; font-size: 0.78rem; color: var(--muted); margin-top: 22px; line-height: 1.6; }
+
+  /* --- About Us --- */
+  .about-copy { font-size: 0.9rem; line-height: 1.9; color: var(--text); max-width: 640px; }
+  .about-copy p { margin-bottom: 20px; }
+
+  /* --- Explore --- */
+  .explore-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .explore-card { background: var(--panel); border: 1px solid var(--decay); border-radius: 12px; padding: 20px; text-align: center; }
+  .explore-icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .explore-label { font-weight: 700; font-size: 0.85rem; margin-bottom: 6px; }
+  .explore-status { font-size: 0.68rem; color: var(--muted); }
+  .explore-status.live { color: var(--matrix); }
+
+  /* --- Modal (sign-up) --- */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(5,7,6,0.9); z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.show { display: flex; }
+  .modal-card { background: var(--panel); border: 1px solid var(--decay); border-radius: 16px; padding: 30px; width: 100%; max-width: 420px; }
+  .modal-eyebrow { color: var(--muted); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .modal-title { font-weight: 700; font-size: 1.1rem; color: var(--matrix); margin-bottom: 12px; }
+  .modal-body { color: var(--muted); font-size: 0.8rem; line-height: 1.55; margin-bottom: 20px; }
+  .field-input { width: 100%; background: var(--panel-light); border: 1.5px solid var(--decay); border-radius: 10px; padding: 11px 13px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; outline: none; }
+  .field-input:focus { border-color: var(--matrix); }
+  .field-input.valid { border-color: var(--matrix); }
+  .field-input.invalid { border-color: var(--danger); }
+  .field-msg { font-size: 0.68rem; margin: 8px 0 16px; min-height: 14px; }
+  .field-msg.neutral { color: var(--muted); }
+  .field-msg.valid { color: var(--matrix); }
+  .field-msg.invalid { color: var(--danger); }
+  .policy-note { background: var(--panel-light); border-radius: 8px; padding: 10px 12px; font-size: 0.66rem; color: var(--muted); line-height: 1.5; margin-bottom: 18px; }
+  .modal-btn-row { display: flex; gap: 10px; }
+  .modal-btn-row .btn { flex: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">THE PERIPHERAL INITIATIVE</div>
+  <nav>
+    <button class="nav-btn active" onclick="setSection('forum', this)">Forum</button>
+    <button class="nav-btn" onclick="setSection('artists', this)">Artists &amp; Labels</button>
+    <button class="nav-btn" onclick="setSection('about', this)">About Us</button>
+    <button class="nav-btn" onclick="setSection('explore', this)">Explore</button>
+  </nav>
+  <div class="auth-area">
+    <div class="auth-status" id="auth-status">browsing anonymously</div>
+    <button class="btn btn-secondary" id="login-btn" onclick="openLogin()">Log In</button>
+    <button class="btn btn-primary" id="signup-btn" onclick="openSignup()">Sign Up to Contribute</button>
+  </div>
+</header>
+
+<!-- FORUM -->
+<div class="section active" id="section-forum">
+  <div class="section-eyebrow">Genre-Based Community</div>
+  <div class="section-title">Forum</div>
+  <div class="forum-layout">
+    <div class="sidebar">
+      <div class="sidebar-title">Genres</div>
+      <button class="genre-item selected" onclick="setGenre('All', this)">All</button>
+      <button class="genre-item" onclick="setGenre('House', this)">House</button>
+      <button class="genre-item" onclick="setGenre('Techno', this)">Techno</button>
+      <button class="genre-item" onclick="setGenre('Trance', this)">Trance</button>
+      <button class="genre-item" onclick="setGenre('Bass/Dubstep', this)">Bass / Dubstep</button>
+      <button class="genre-item" onclick="setGenre('Drum & Bass', this)">Drum &amp; Bass</button>
+      <button class="genre-item" onclick="setGenre('Regional', this)">Regional / Scene-Specific</button>
+    </div>
+    <div class="main-col">
+      <div class="main-top">
+        <strong style="font-size:0.85rem;">Threads</strong>
+        <button class="btn btn-secondary" onclick="attemptContribute('start a new thread')">New Thread</button>
+      </div>
+      <div class="browse-note" id="browse-note">Anyone can read every thread here without an account. Posting or replying requires a verified account — one email or phone number, tied permanently to one username.</div>
+      <div id="thread-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTISTS & LABELS -->
+<div class="section" id="section-artists">
+  <div class="section-eyebrow">Independent Artists & Labels</div>
+  <div class="section-title">Artists &amp; Labels</div>
+  <div class="artist-grid">
+    <div class="artist-card">
+      <div class="artist-art"></div>
+      <div class="artist-name">Ghost Channel</div>
+      <div class="artist-label">Independent · Melodic Techno</div>
+      <span class="verified-tag">✓ Verified</span>
+    </div>
+    <div class="artist-card">
+      <div class="artist-art"></div>
+      <div class="artist-name">Midnight Presser</div>
+      <div class="artist-label">Static Groove Records</div>
+      <span class="verified-tag">✓ Verified</span>
+    </div>
+    <div class="artist-card">
+      <div class="artist-art"></div>
+      <div class="artist-name">Bass Frequency</div>
+      <div class="artist-label">Independent · Riddim</div>
+      <span class="unverified-tag">Pending Verification</span>
+    </div>
+    <div class="artist-card">
+      <div class="artist-art"></div>
+      <div class="artist-name">Vinyl Vortex</div>
+      <div class="artist-label">Independent · House</div>
+      <span class="verified-tag">✓ Verified</span>
+    </div>
+  </div>
+  <div class="policy-callout">Hybrid hosting: artists can host tracks directly here and/or link out to Spotify, SoundCloud, or Bandcamp. Verification requires evidence of genuine existing distribution. AI is welcome as a tool in a real artist's process — fully AI-generated music with no artist behind it is not permitted.</div>
+</div>
+
+<!-- ABOUT US -->
+<div class="section" id="section-about">
+  <div class="section-eyebrow">Who We Are</div>
+  <div class="section-title">About Us</div>
+  <div class="about-copy">
+    <p>The Peripheral Initiative is a collective of music ideologies that exists on the edge of how music is discovered, and how it is supposed to be heard. Your peripheral vision senses movement before your eyes ever confirm it: a presence, a shift, something real before it has a shape. This is built the same way. There's no single voice behind it. There doesn't need to be.</p>
+    <p>The Peripheral Initiative is driven by the independence and freedom at the heart of EDM. By giving users a platform to build community, discover new music, and connect with one another, it offers Independent Artists and Labels an EDM-centric space built around their courage and freedom of expression. Without artistic expression, there is no creativity: no exploration.</p>
+  </div>
+</div>
+
+<!-- EXPLORE -->
+<div class="section" id="section-explore">
+  <div class="section-eyebrow">Beyond the Forum</div>
+  <div class="section-title">Explore</div>
+  <div class="explore-grid">
+    <div class="explore-card">
+      <div class="explore-icon">🌐</div>
+      <div class="explore-label">Socials</div>
+      <div class="explore-status live">Live</div>
+    </div>
+    <div class="explore-card">
+      <div class="explore-icon">🛍️</div>
+      <div class="explore-label">Merchandise</div>
+      <div class="explore-status">Coming Soon</div>
+    </div>
+    <div class="explore-card">
+      <div class="explore-icon">📱</div>
+      <div class="explore-label">The App</div>
+      <div class="explore-status">Not yet linked</div>
+    </div>
+  </div>
+</div>
+
+<!-- Sign-up modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card" id="modal-content"></div>
+</div>
+
+<script>
+let isVerified = false;
+let chosenAlias = '';
+let chosenIdentity = '';
+// In-memory only, for this demo session — a real build stores this server-side.
+const REGISTERED_ACCOUNTS = [];
+let signupStep = 1;
+let currentGenre = 'All';
+
+const THREADS = [
+  { genre: 'House', title: 'Best tech house releases of the month?', author: 'CrateDigga207', replies: 14, time: '2h ago' },
+  { genre: 'Techno', title: 'Melodic techno vs hard techno — where do you draw the line', author: 'GhostChannel', replies: 31, time: '5h ago' },
+  { genre: 'Bass/Dubstep', title: 'Riddim producers worth following in 2026', author: 'BassFrequency', replies: 8, time: '1d ago' },
+  { genre: 'Regional', title: 'Amapiano crossing into western house sets — thoughts?', author: 'MidnightPresser', replies: 22, time: '1d ago' },
+  { genre: 'Drum & Bass', title: 'Liquid D&B for a Sunday morning drive', author: 'VinylVortex', replies: 6, time: '2d ago' },
+];
+
+function setSection(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setGenre(genre, btn) {
+  currentGenre = genre;
+  document.querySelectorAll('.genre-item').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  renderThreads();
+}
+
+function renderThreads() {
+  const list = document.getElementById('thread-list');
+  const filtered = currentGenre === 'All' ? THREADS : THREADS.filter(t => t.genre === currentGenre);
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="color:var(--muted); font-size:0.8rem; padding:16px 0;">No threads in this genre yet — be the first to start one.</div>';
+    return;
+  }
+  list.innerHTML = filtered.map(t => `
+    <div class="thread-card">
+      <div class="thread-genre-tag">${t.genre.toUpperCase()}</div>
+      <div class="thread-title">${t.title}</div>
+      <div class="thread-meta">${t.author} · ${t.replies} replies · ${t.time}</div>
+      <div class="thread-actions">
+        <button class="reply-btn" onclick="attemptContribute('reply to this thread')">${isVerified ? 'Reply' : '🔒 Reply'}</button>
+        ${!isVerified ? '<span class="lock-hint">Sign up to join the conversation</span>' : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function attemptContribute(action) {
+  if (isVerified) {
+    showToast('Would open the compose box to ' + action + ' as ' + chosenAlias);
+  } else {
+    openSignup();
+  }
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('site-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'site-toast';
+    toast.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--panel-light); border:1px solid var(--decay); padding:11px 18px; border-radius:999px; font-family:JetBrains Mono,monospace; font-size:0.75rem; color:var(--gold); opacity:0; transition:opacity 0.4s ease; pointer-events:none; z-index:200; white-space:nowrap;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  setTimeout(() => { toast.style.opacity = '0'; }, 2800);
+}
+
+function openSignup() {
+  if (isVerified) return;
+  signupStep = 1;
+  renderSignupStep();
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeSignup() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+const RESERVED_IDENTITIES = ['test@example.com', '5555555555'];
+const RESERVED_NAMES = ['admin', 'administrator', 'moderator', 'staff', 'official', 'peripheralteam', 'support'];
+
+function normalize(input) {
+  return input.toLowerCase()
+    .replace(/1/g, 'i').replace(/0/g, 'o').replace(/3/g, 'e')
+    .replace(/4/g, 'a').replace(/5/g, 's').replace(/[^a-z]/g, '');
+}
+
+function renderSignupStep() {
+  const content = document.getElementById('modal-content');
+
+  if (signupStep === 1) {
+    content.innerHTML = `
+      <div class="modal-eyebrow">Step 1 of 3</div>
+      <div class="modal-title">When's your birthday?</div>
+      <div class="modal-body">The Peripheral Initiative requires users to be 16 or older.</div>
+      <input type="date" class="field-input" id="birthdate-input">
+      <div class="field-msg neutral" id="age-msg"></div>
+      <div class="modal-btn-row">
+        <button class="btn btn-secondary" onclick="closeSignup()">Cancel</button>
+        <button class="btn btn-primary" onclick="checkAge()">Continue</button>
+      </div>
+    `;
+  }
+
+  if (signupStep === 1.5) {
+    content.innerHTML = `
+      <div class="modal-eyebrow">Age Verification</div>
+      <div class="modal-title" style="color: var(--danger);">This platform is 16+</div>
+      <div class="modal-body">Based on the birthdate entered, this account doesn't meet the minimum age requirement. You won't be able to continue creating an account.</div>
+      <div class="modal-btn-row">
+        <button class="btn btn-secondary" style="flex:1;" onclick="signupStep = 1; renderSignupStep();">Back</button>
+      </div>
+    `;
+  }
+
+  if (signupStep === 2) {
+    content.innerHTML = `
+      <div class="modal-eyebrow">Step 2 of 3</div>
+      <div class="modal-title">Verify one contact method</div>
+      <div class="modal-body">One email or phone number per person, permanently tied to whichever username you choose next. A new account later requires a different contact method <em>and</em> a never-used username.</div>
+      <input type="text" class="field-input" id="identity-input" placeholder="Email or phone number" oninput="onIdentityInput()">
+      <div class="field-msg neutral" id="identity-msg"></div>
+      <div class="modal-btn-row">
+        <button class="btn btn-secondary" onclick="signupStep = 1; renderSignupStep();">Back</button>
+        <button class="btn btn-primary" id="identity-continue" disabled onclick="goToUsernameStep()">Continue</button>
+      </div>
+    `;
+  }
+
+  if (signupStep === 3) {
+    content.innerHTML = `
+      <div class="modal-eyebrow">Step 3 of 3</div>
+      <div class="modal-title">Choose your alias</div>
+      <div class="modal-body">This is what other users see on the forum.</div>
+      <input type="text" class="field-input" id="alias-input" placeholder="e.g. VinylVortex" oninput="onAliasInput()">
+      <div class="field-msg neutral" id="alias-msg"></div>
+      <div class="policy-note">🛡️ Offensive, hateful, or impersonating usernames are never allowed — no exceptions. Checked automatically, and reportable after the fact.</div>
+      <div class="modal-btn-row">
+        <button class="btn btn-secondary" onclick="signupStep = 2; renderSignupStep();">Back</button>
+        <button class="btn btn-primary" id="alias-continue" disabled onclick="finishSignup()">Create Account</button>
+      </div>
+    `;
+  }
+}
+
+function checkAge() {
+  const input = document.getElementById('birthdate-input');
+  const msgEl = document.getElementById('age-msg');
+  if (!input.value) {
+    msgEl.className = 'field-msg invalid';
+    msgEl.textContent = 'Please enter your birthdate.';
+    return;
+  }
+  const birthDate = new Date(input.value);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+
+  signupStep = age < 16 ? 1.5 : 2;
+  renderSignupStep();
+}
+
+function onIdentityInput() {
+  const input = document.getElementById('identity-input');
+  const msgEl = document.getElementById('identity-msg');
+  const continueBtn = document.getElementById('identity-continue');
+  const value = input.value.trim().toLowerCase();
+
+  if (value.length === 0) {
+    input.className = 'field-input'; msgEl.className = 'field-msg neutral';
+    msgEl.textContent = 'Verified once per account.'; continueBtn.disabled = true; return;
+  }
+  if (RESERVED_IDENTITIES.includes(value)) {
+    input.className = 'field-input invalid'; msgEl.className = 'field-msg invalid';
+    msgEl.textContent = 'This contact method is already linked to another account.'; continueBtn.disabled = true; return;
+  }
+  input.className = 'field-input valid'; msgEl.className = 'field-msg valid';
+  msgEl.textContent = 'Looks good — a verification code would be sent here.'; continueBtn.disabled = false;
+}
+
+function goToUsernameStep() {
+  chosenIdentity = document.getElementById('identity-input').value.trim().toLowerCase();
+  signupStep = 3;
+  renderSignupStep();
+}
+
+function onAliasInput() {
+  const input = document.getElementById('alias-input');
+  const msgEl = document.getElementById('alias-msg');
+  const continueBtn = document.getElementById('alias-continue');
+  const trimmed = input.value.trim();
+
+  if (trimmed.length === 0) {
+    input.className = 'field-input'; msgEl.className = 'field-msg neutral';
+    msgEl.textContent = 'Pick something that\u2019s yours.'; continueBtn.disabled = true; return;
+  }
+  if (trimmed.length < 3) {
+    input.className = 'field-input invalid'; msgEl.className = 'field-msg invalid';
+    msgEl.textContent = 'Too short — at least 3 characters.'; continueBtn.disabled = true; return;
+  }
+  const normalized = normalize(trimmed);
+  if (RESERVED_NAMES.some(term => normalized.includes(term))) {
+    input.className = 'field-input invalid'; msgEl.className = 'field-msg invalid';
+    msgEl.textContent = 'That name isn\u2019t available.'; continueBtn.disabled = true; return;
+  }
+  input.className = 'field-input valid'; msgEl.className = 'field-msg valid';
+  msgEl.textContent = 'Looks good.'; continueBtn.disabled = false;
+  chosenAlias = trimmed;
+}
+
+function finishSignup() {
+  isVerified = true;
+  REGISTERED_ACCOUNTS.push({ identity: chosenIdentity, alias: chosenAlias });
+  closeSignup();
+  setVerifiedUI();
+}
+
+function setVerifiedUI() {
+  document.getElementById('auth-status').textContent = 'signed in as ' + chosenAlias;
+  document.getElementById('auth-status').classList.add('verified');
+  document.getElementById('signup-btn').style.display = 'none';
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('browse-note').innerHTML = 'You\u2019re verified — replies and new threads now post under <strong>' + chosenAlias + '</strong>.';
+  renderThreads();
+}
+
+// --- Log in (returning verified users) ---
+function openLogin() {
+  if (isVerified) return;
+  const content = document.getElementById('modal-content');
+  content.innerHTML = `
+    <div class="modal-eyebrow">Log In</div>
+    <div class="modal-title">Welcome back</div>
+    <div class="modal-body">Enter the email or phone number tied to your account.</div>
+    <input type="text" class="field-input" id="login-identity-input" placeholder="Email or phone number" oninput="document.getElementById('login-msg').textContent=''; document.getElementById('login-identity-input').className='field-input';">
+    <div class="field-msg neutral" id="login-msg"></div>
+    <div class="modal-btn-row">
+      <button class="btn btn-secondary" onclick="closeSignup()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitLogin()">Log In</button>
+    </div>
+    <div style="text-align:center; margin-top:14px; font-size:0.7rem; color:var(--muted);">
+      No account yet? <span style="color:var(--matrix); cursor:pointer; text-decoration:underline;" onclick="openSignup()">Sign up instead</span>
+      &nbsp;·&nbsp;
+      <span style="color:var(--matrix); cursor:pointer; text-decoration:underline;" onclick="openUsernameLookup()">Forgot your username?</span>
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function openUsernameLookup() {
+  const content = document.getElementById('modal-content');
+  content.innerHTML = `
+    <div class="modal-eyebrow">Username Lookup</div>
+    <div class="modal-title">What's my username?</div>
+    <div class="modal-body">Enter the email or phone number you verified when you signed up — we'll tell you which alias is tied to it.</div>
+    <input type="text" class="field-input" id="lookup-identity-input" placeholder="Email or phone number">
+    <div class="field-msg neutral" id="lookup-msg"></div>
+    <div class="modal-btn-row">
+      <button class="btn btn-secondary" onclick="openLogin()">Back</button>
+      <button class="btn btn-primary" onclick="submitUsernameLookup()">Look Up</button>
+    </div>
+  `;
+}
+
+function submitUsernameLookup() {
+  const input = document.getElementById('lookup-identity-input');
+  const msgEl = document.getElementById('lookup-msg');
+  const value = input.value.trim().toLowerCase();
+  const match = REGISTERED_ACCOUNTS.find(acc => acc.identity === value);
+
+  if (!match) {
+    input.className = 'field-input invalid';
+    msgEl.className = 'field-msg invalid';
+    msgEl.textContent = 'No account found with that contact method.';
+    return;
+  }
+
+  input.className = 'field-input valid';
+  msgEl.className = 'field-msg valid';
+  msgEl.textContent = 'Your username is: ' + match.alias;
+}
+
+function submitLogin() {
+  const input = document.getElementById('login-identity-input');
+  const msgEl = document.getElementById('login-msg');
+  const value = input.value.trim().toLowerCase();
+  const match = REGISTERED_ACCOUNTS.find(acc => acc.identity === value);
+
+  if (!match) {
+    input.className = 'field-input invalid';
+    msgEl.className = 'field-msg invalid';
+    msgEl.textContent = 'No account found with that contact method.';
+    return;
+  }
+
+  isVerified = true;
+  chosenAlias = match.alias;
+  closeSignup();
+  setVerifiedUI();
+}
+
+renderThreads();
+</script>
+
+</body>
+</html>
