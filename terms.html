@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — The Peripheral Initiative</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 38 38' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='19' cy='19' r='15' fill='none' stroke='%232fe374' stroke-width='1.5' stroke-dasharray='70 24' stroke-dashoffset='6'/%3E%3Ccircle cx='19' cy='19' r='3.5' fill='%232fe374'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--void:#070a08;--panel:#0e140f;--panel-light:#162018;--matrix:#2fe374;--decay:#123821;--resolved:#e2ede4;--muted:#6f8577;--gold:#ffd76a;--danger:#ff5c5c;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--void);color:var(--resolved);font-family:'JetBrains Mono',monospace;min-height:100vh;line-height:1.7;}
+#rain-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.1;pointer-events:none;}
+header,main,footer{position:relative;z-index:1;}
+
+/* Header */
+header{background:rgba(7,10,8,.97);border-bottom:1px solid var(--decay);display:flex;align-items:center;justify-content:space-between;padding:12px 28px;position:sticky;top:0;z-index:40;}
+.brand-link{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-name{font-weight:700;font-size:.88rem;color:var(--matrix);letter-spacing:.05em;}
+.back-link{color:var(--muted);font-size:.72rem;text-decoration:none;border:1px solid var(--decay);padding:7px 14px;border-radius:6px;transition:all .15s;}
+.back-link:hover{color:var(--matrix);border-color:var(--matrix);}
+
+/* Document */
+main{max-width:760px;margin:0 auto;padding:48px 28px 100px;}
+.draft-banner{background:rgba(255,215,106,.08);border:1px solid rgba(255,215,106,.3);border-radius:8px;padding:12px 16px;font-size:.72rem;color:var(--gold);margin-bottom:36px;line-height:1.6;}
+.doc-title{font-size:1.6rem;font-weight:700;color:var(--matrix);margin-bottom:8px;text-shadow:0 0 16px rgba(47,227,116,.2);}
+.doc-date{font-size:.68rem;color:var(--muted);margin-bottom:36px;}
+.doc-section{margin-bottom:36px;}
+.doc-section h2{font-size:.95rem;font-weight:700;color:var(--matrix);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--decay);}
+.doc-section h3{font-size:.82rem;font-weight:700;color:var(--resolved);margin:16px 0 8px;}
+.doc-section p{font-size:.8rem;color:var(--muted);margin-bottom:10px;line-height:1.8;}
+.doc-section ul{padding-left:20px;margin-bottom:10px;}
+.doc-section ul li{font-size:.8rem;color:var(--muted);margin-bottom:6px;line-height:1.7;}
+.doc-section ul li strong{color:var(--resolved);}
+.highlight{color:var(--resolved);}
+.zero-tolerance{background:rgba(255,92,92,.06);border-left:3px solid var(--danger);border-radius:4px;padding:12px 16px;margin:12px 0;}
+.zero-tolerance p{color:var(--muted)!important;margin:0!important;}
+
+/* Footer */
+footer{border-top:1px solid var(--decay);padding:28px;text-align:center;}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;font-size:.65rem;margin-bottom:10px;}
+.footer-links a{color:var(--muted);text-decoration:none;}
+.footer-links a:hover{color:var(--matrix);}
+.footer-links a.active{color:var(--matrix);}
+.footer-copy{font-size:.62rem;color:var(--muted);}
+</style>
+</head>
+<body>
+<canvas id="rain-canvas"></canvas>
+
+<header>
+  <a href="home.html" class="brand-link">
+    <svg viewBox="0 0 38 38" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="19" cy="19" r="15" fill="none" stroke="#2fe374" stroke-width="1.5" stroke-dasharray="70 24" stroke-dashoffset="6"/>
+      <circle cx="19" cy="19" r="3.5" fill="#2fe374"/>
+      <line x1="19" y1="1" x2="19" y2="5" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="19" y1="33" x2="19" y2="37" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="1" y1="19" x2="5" y2="19" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="33" y1="19" x2="37" y2="19" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">THE PERIPHERAL INITIATIVE</span>
+  </a>
+  <a href="home.html" class="back-link">&#8592; Back to the Platform</a>
+</header>
+
+<main>
+  <div class="draft-banner">
+    &#9888;&#65039; <strong>Draft — Pending Legal Review.</strong> These Terms of Service reflect the platform's current policies and design intent. They have not yet been reviewed by legal counsel and are not legally binding in their current form. Professional legal review is required before this document is finalized and enforced.
+  </div>
+
+  <div class="doc-title">Terms of Service</div>
+  <div class="doc-date">Last updated: July 27, 2026 &nbsp;&middot;&nbsp; Effective upon full platform launch</div>
+
+  <div class="doc-section">
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using The Peripheral Initiative platform (the "Platform"), including its website, forum, artist and label directory, and any associated services, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the Platform.</p>
+    <p>The Peripheral Initiative ("we," "us," or "our") reserves the right to modify these Terms at any time. Continued use of the Platform after changes are posted constitutes acceptance of the updated Terms. We will make reasonable efforts to notify registered users of material changes.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>2. Eligibility</h2>
+    <p>You must be <strong class="highlight">18 years of age or older</strong> to create an account and contribute to the Platform. By registering, you represent and warrant that you meet this age requirement. Users who misrepresent their age will have their accounts permanently terminated.</p>
+    <p>Browsing the Platform's public content (including reading forum threads and viewing artist profiles) does not require an account and is available to all users regardless of age. Contributing — posting, commenting, voting, saving, or submitting artist profiles — requires a verified account.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>3. Account Registration</h2>
+    <h3>3.1 Identity Verification</h3>
+    <p>Account creation requires verification of one unique email address or phone number ("contact method"). Each contact method may only be tied to one account. By providing your contact method, you confirm it is yours and that you authorize its use for account verification.</p>
+    <h3>3.2 One Account Per Person</h3>
+    <p>Each person may maintain only one account. Creating multiple accounts to evade bans, inflate votes, manipulate platform metrics, or circumvent any restriction is strictly prohibited and will result in permanent termination of all associated accounts.</p>
+    <h3>3.3 Username Rules</h3>
+    <p>Your chosen username (alias) must comply with the following requirements:</p>
+    <ul>
+      <li>Must be at least 3 characters in length</li>
+      <li><strong>Must not be offensive, hateful, racist, discriminatory, or harassing</strong> in any form</li>
+      <li>Must not impersonate another person, artist, label, or official entity</li>
+      <li>Must not use reserved platform identifiers (e.g., "admin," "moderator," "staff")</li>
+      <li>Must not use character substitutions (e.g., "adm1n") to circumvent the above rules</li>
+    </ul>
+    <p>Usernames are checked automatically at registration and are reportable by other users at any time. Usernames found to violate these rules will be required to be changed before continued platform access.</p>
+    <h3>3.4 Account Security</h3>
+    <p>You are responsible for maintaining the confidentiality of your account credentials. Notify us immediately at <a href="mailto:lachlan@theperipheralinitiative.com" style="color:var(--matrix);">lachlan@theperipheralinitiative.com</a> if you suspect unauthorized access to your account.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>4. Community Standards and Forum Rules</h2>
+    <h3>4.1 Scope</h3>
+    <p>The Platform's forum is dedicated exclusively to EDM (Electronic Dance Music) and its sub-genres. General music discussion outside of this scope is not permitted.</p>
+    <h3>4.2 Zero-Tolerance Policy</h3>
+    <div class="zero-tolerance">
+      <p>The following content is <strong>strictly prohibited</strong> and subject to immediate removal and account termination without warning: hate speech, racism, discrimination on any basis, harassment, bullying, stalking, sexual content, spam, unsolicited self-promotion, and any content that violates applicable law.</p>
+    </div>
+    <h3>4.3 Reporting</h3>
+    <p>Users may report posts, comments, and usernames that violate these rules. Reports are reviewed by local moderators. False or malicious reporting — submitting reports with no genuine good-faith basis — is a violation of these Terms and may result in suspension or termination of the reporting user's account. A three-strike system applies to confirmed malicious false reports, with permanent ban authority reserved for severe or repeated violations.</p>
+    <h3>4.4 Moderation</h3>
+    <p>Local moderators are empowered to remove content and restrict users within their communities. The Peripheral Initiative retains sole authority to issue platform-wide bans and to override or revoke any moderator's actions.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>5. Artist and Label Profiles</h2>
+    <h3>5.1 Verification</h3>
+    <p>Artists and labels must verify their profiles by providing evidence of genuine existing music distribution before their profiles go live publicly. Profile creation is self-serve; going live requires verification by platform staff.</p>
+    <h3>5.2 Content Ownership</h3>
+    <p>Artists and labels retain <strong class="highlight">full ownership</strong> of all content they upload or link through the Platform. The Peripheral Initiative claims no ownership rights over any musical works, artwork, or other creative content. By submitting content, you grant The Peripheral Initiative a limited, non-exclusive, royalty-free license to display and promote that content on the Platform for the duration of your profile's active status.</p>
+    <h3>5.3 AI-Generated Music Policy</h3>
+    <p>The use of AI as a tool within a real artist's creative process is permitted. Music that is fully AI-generated with no human artist behind it is not permitted on the Platform. Profiles found to misrepresent AI-generated content as human-created will be removed and may be permanently banned.</p>
+    <h3>5.4 Prohibited Content in Profiles</h3>
+    <p>All zero-tolerance policies in Section 4.2 apply equally to artist and label profiles, releases, and promotional content.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>6. Intellectual Property and DMCA</h2>
+    <h3>6.1 Platform Content</h3>
+    <p>The Peripheral Initiative's brand, visual design, written copy, and platform structure are protected by copyright and may not be reproduced without written permission.</p>
+    <h3>6.2 DMCA Takedown Procedure</h3>
+    <p>The Peripheral Initiative complies with the Digital Millennium Copyright Act (DMCA). If you believe content on the Platform infringes your copyright, please submit a notice to our designated DMCA agent:</p>
+    <p><strong class="highlight">DMCA Agent:</strong> Lachlan Weidinger<br>
+    <strong class="highlight">Email:</strong> <a href="mailto:lachlan@theperipheralinitiative.com" style="color:var(--matrix);">lachlan@theperipheralinitiative.com</a></p>
+    <p>Your notice must include: identification of the copyrighted work; identification of the infringing material and its location on the Platform; your contact information; a statement of good faith belief; and a statement of accuracy under penalty of perjury.</p>
+    <h3>6.3 Counter-Notices</h3>
+    <p>If you believe content was removed in error, you may submit a counter-notice to the same contact above. Repeat infringers will have their accounts terminated.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>7. Store and Purchase Terms</h2>
+    <p>Merchandise and other purchasable items available through the Platform are subject to additional purchase terms provided at the time of transaction. Payment processing is handled by a third-party payment provider; The Peripheral Initiative does not store payment card data directly. All sales are subject to applicable consumer protection laws. Refund and return policies will be specified at the point of purchase.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>8. Termination</h2>
+    <p>We reserve the right to suspend or permanently terminate any account, at our sole discretion, for violation of these Terms or for any conduct we determine to be harmful to the Platform, its community, or third parties. You may also delete your account at any time through your account settings.</p>
+    <p>Upon termination, your right to access the Platform ceases immediately. Content you have posted may be retained or removed at our discretion, subject to applicable law.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>9. Disclaimers and Limitation of Liability</h2>
+    <p>The Platform is provided "as is" and "as available" without warranties of any kind, express or implied. We do not warrant that the Platform will be uninterrupted, error-free, or free of viruses or other harmful components.</p>
+    <p>The Peripheral Initiative is not responsible for the accuracy of user-generated content, artist profiles, store location data, or any third-party content linked from the Platform. We are not liable for any indirect, incidental, special, or consequential damages arising from your use of the Platform.</p>
+    <p>Store location data on any associated applications is user-generated and may be inaccurate. The Peripheral Initiative is not liable for losses arising from reliance on location data.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>10. Governing Law</h2>
+    <p>These Terms shall be governed by the laws of the State of Maine, United States, without regard to its conflict of law provisions. Any disputes arising from these Terms or your use of the Platform shall be resolved in the courts of the State of Maine.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>11. Contact</h2>
+    <p>Questions about these Terms of Service may be directed to:</p>
+    <p><strong class="highlight">The Peripheral Initiative</strong><br>
+    <a href="mailto:lachlan@theperipheralinitiative.com" style="color:var(--matrix);">lachlan@theperipheralinitiative.com</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="terms.html" class="active">Terms of Service</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="mailto:lachlan@theperipheralinitiative.com">DMCA Contact</a>
+    <a href="https://www.instagram.com/peripheral.initiative" target="_blank">Instagram</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 The Peripheral Initiative &mdash; All Rights Reserved</div>
+</footer>
+
+<script>
+(function(){
+  const canvas=document.getElementById('rain-canvas'),ctx=canvas.getContext('2d');
+  const CHARS="\u30A2\u30A4\u30A6\u30A8\u30AA\u30AB\u30AD\u30AF\u30B1\u30B30123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const COLORS=['#3ee8ff','#b06bff','#ff5fc9','#4c8bff','#28e6b8'];
+  const FS=14;let columns,drops,colColors;
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;columns=Math.floor(canvas.width/FS);drops=Array(columns).fill(1);colColors=Array.from({length:columns},()=>COLORS[Math.floor(Math.random()*COLORS.length)]);}
+  function draw(){ctx.fillStyle='rgba(7,10,8,0.04)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.font=FS+'px JetBrains Mono,monospace';for(let i=0;i<columns;i++){ctx.fillStyle=colColors[i];ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],i*FS,drops[i]*FS);if(drops[i]*FS>canvas.height&&Math.random()>.975)drops[i]=0;drops[i]++;}}
+  window.addEventListener('resize',resize);resize();setInterval(draw,55);
+})();
+</script>
+</body>
+</html>
