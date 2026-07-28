@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In — The Peripheral Initiative</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #070a08; --panel: #0e140f; --panel-light: #162018;
+    --matrix: #2fe374; --decay: #123821; --resolved: #e2ede4;
+    --muted: #6f8577; --gold: #ffd76a; --danger: #ff5c5c;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #rain-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    padding: 24px 16px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    margin-bottom: 24px;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover { color: var(--matrix); }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 14px;
+    padding: 32px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .card-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--matrix);
+    margin-bottom: 10px;
+    text-shadow: 0 0 12px rgba(47,227,116,0.25);
+  }
+
+  .card-body {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .field-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .field-input {
+    width: 100%;
+    background: var(--panel-light);
+    border: 1.5px solid var(--decay);
+    border-radius: 8px;
+    padding: 11px 13px;
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field-input:focus { border-color: var(--matrix); }
+  .field-input.valid { border-color: var(--matrix); }
+  .field-input.invalid { border-color: var(--danger); }
+
+  .field-msg {
+    font-size: 0.65rem;
+    margin: 7px 0 16px;
+    min-height: 14px;
+  }
+
+  .field-msg.neutral { color: var(--muted); }
+  .field-msg.valid { color: var(--matrix); }
+  .field-msg.invalid { color: var(--danger); }
+
+  .forgot-link {
+    font-size: 0.65rem;
+    color: var(--matrix);
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 18px;
+    margin-top: -8px;
+  }
+
+  .forgot-link:hover { text-decoration: underline; }
+
+  .social-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .social-divider::before, .social-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--decay);
+  }
+
+  .social-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--panel-light);
+    border: 1px solid var(--decay);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: border-color 0.15s;
+  }
+
+  .social-btn:hover { border-color: var(--muted); }
+
+  .btn-row { display: flex; gap: 10px; }
+
+  .btn {
+    flex: 1;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid var(--decay);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-ghost { background: transparent; color: var(--muted); }
+  .btn-ghost:hover { color: var(--resolved); border-color: var(--muted); }
+
+  .btn-primary {
+    background: var(--matrix);
+    color: var(--void);
+    border-color: var(--matrix);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { background: #b6ffd8; }
+
+  .card-footer {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .card-footer a { color: var(--matrix); text-decoration: none; }
+  .card-footer a:hover { text-decoration: underline; }
+
+  .lookup-result {
+    background: var(--panel-light);
+    border: 1px solid var(--matrix);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.75rem;
+    color: var(--matrix);
+    margin-bottom: 16px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="rain-canvas"></canvas>
+
+<div class="page-wrap">
+  <a href="home.html" class="back-link">← Back to The Peripheral Initiative</a>
+
+  <div class="card" id="main-card">
+    <div class="logo-row">
+      <svg viewBox="0 0 38 38" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="19" cy="19" r="15" fill="none" stroke="#2fe374" stroke-width="1.5" stroke-dasharray="70 24" stroke-dashoffset="6"/>
+        <circle cx="19" cy="19" r="3.5" fill="#2fe374"/>
+        <line x1="19" y1="1"  x2="19" y2="5"  stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="19" y1="33" x2="19" y2="37" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="1"  y1="19" x2="5"  y2="19" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="33" y1="19" x2="37" y2="19" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span style="font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;">THE PERIPHERAL INITIATIVE</span>
+    </div>
+
+    <div class="card-eyebrow">Welcome Back</div>
+    <div class="card-title">Log In</div>
+    <div class="card-body">Enter the email or phone number tied to your account.</div>
+
+    <button class="social-btn" onclick="socialLogin('Apple')">🍎 Continue with Apple</button>
+    <button class="social-btn" onclick="socialLogin('Google')">🔵 Continue with Google</button>
+
+    <div class="social-divider">or use email / phone</div>
+
+    <label class="field-label">Email address or phone number</label>
+    <input type="text" class="field-input" id="login-input" placeholder="email@domain.com or +1 555 000 0000"
+      oninput="clearLoginError()"
+      onkeydown="if(event.key==='Enter')submitLogin()">
+    <div class="field-msg neutral" id="login-msg"></div>
+
+    <span class="forgot-link" onclick="toggleLookup()">Forgot your username?</span>
+
+    <div class="lookup-result" id="lookup-result"></div>
+
+    <div class="btn-row">
+      <a href="home.html" class="btn btn-ghost">Cancel</a>
+      <button class="btn btn-primary" onclick="submitLogin()">Log In</button>
+    </div>
+  </div>
+
+  <div class="card-footer" style="margin-top:14px;">
+    No account yet? <a href="signup.html">Sign Up to Contribute</a>
+  </div>
+</div>
+
+<script>
+let lookupVisible = false;
+
+function getRegistered() {
+  try { return JSON.parse(localStorage.getItem('pi_registered') || '[]'); }
+  catch(e) { return []; }
+}
+
+function clearLoginError() {
+  const inp = document.getElementById('login-input');
+  const msg = document.getElementById('login-msg');
+  inp.className = 'field-input';
+  msg.className = 'field-msg neutral';
+  msg.textContent = '';
+}
+
+function socialLogin(provider) {
+  // In production this initiates the real OAuth flow and checks the account
+  const fakeIdentity = provider.toLowerCase() + '_user@peripheral.demo';
+  const registered = getRegistered();
+  const match = registered.find(a => a.identity === fakeIdentity);
+  if (match) {
+    completeLogin(match.alias);
+  } else {
+    // No account found — send to sign up
+    window.location.href = 'signup.html';
+  }
+}
+
+function submitLogin() {
+  const inp = document.getElementById('login-input');
+  const msg = document.getElementById('login-msg');
+  const val = inp.value.trim().toLowerCase();
+
+  if (!val) {
+    inp.className = 'field-input invalid';
+    msg.className = 'field-msg invalid';
+    msg.textContent = 'Please enter your email or phone number.';
+    return;
+  }
+
+  const registered = getRegistered();
+  const match = registered.find(a => a.identity === val);
+
+  if (!match) {
+    inp.className = 'field-input invalid';
+    msg.className = 'field-msg invalid';
+    msg.textContent = 'No account found with that contact method.';
+    return;
+  }
+
+  completeLogin(match.alias);
+}
+
+function completeLogin(alias) {
+  try {
+    localStorage.setItem('pi_verified', 'true');
+    localStorage.setItem('pi_alias', alias);
+  } catch(e) {}
+  window.location.href = 'home.html';
+}
+
+function toggleLookup() {
+  lookupVisible = !lookupVisible;
+  const result = document.getElementById('lookup-result');
+  if (!lookupVisible) { result.style.display = 'none'; return; }
+
+  const inp = document.getElementById('login-input');
+  const val = inp.value.trim().toLowerCase();
+
+  if (!val) {
+    result.style.display = 'block';
+    result.textContent = 'Enter your email or phone number above first, then click this link.';
+    return;
+  }
+
+  const registered = getRegistered();
+  const match = registered.find(a => a.identity === val);
+
+  result.style.display = 'block';
+  if (match) {
+    result.textContent = 'Your username is: ' + match.alias;
+  } else {
+    result.textContent = 'No account found with that contact method.';
+    result.style.borderColor = 'var(--danger)';
+    result.style.color = 'var(--danger)';
+  }
+}
+
+// ── Matrix rain ────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('rain-canvas');
+  const ctx = canvas.getContext('2d');
+  const CHARS = "アイウエオカキクケコサシスセソ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+-/<>#$%";
+  const COLORS = ['#3ee8ff','#b06bff','#ff5fc9','#4c8bff','#28e6b8'];
+  const FS = 14;
+  let columns, drops, colColors;
+  function resize() {
+    canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+    columns=Math.floor(canvas.width/FS);
+    drops=Array(columns).fill(1);
+    colColors=Array.from({length:columns},()=>COLORS[Math.floor(Math.random()*COLORS.length)]);
+  }
+  function draw() {
+    ctx.fillStyle='rgba(7,10,8,0.035)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.font=FS+'px JetBrains Mono,monospace';
+    for(let i=0;i<columns;i++){
+      ctx.fillStyle=colColors[i];
+      ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],i*FS,drops[i]*FS);
+      if(drops[i]*FS>canvas.height&&Math.random()>0.975)drops[i]=0;
+      drops[i]++;
+    }
+  }
+  window.addEventListener('resize',resize); resize(); setInterval(draw,55);
+})();
+
+// ── Redirect if already logged in ─────────────────────
+try {
+  if (localStorage.getItem('pi_verified') === 'true') {
+    window.location.href = 'home.html';
+  }
+} catch(e) {}
+</script>
+</body>
+</html>
