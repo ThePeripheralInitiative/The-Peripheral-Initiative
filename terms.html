@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — The Peripheral Initiative</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#070a08;--panel:#0e140f;--panel-light:#162018;--matrix:#2fe374;
+  --decay:#123821;--resolved:#e2ede4;--muted:#6f8577;--gold:#ffd76a;--danger:#ff5c5c;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--void);color:var(--resolved);font-family:'JetBrains Mono',monospace;
+  line-height:1.75;-webkit-font-smoothing:antialiased;}
+header{position:sticky;top:0;z-index:40;background:rgba(7,10,8,.97);
+  border-bottom:1px solid var(--decay);padding:10px 20px;display:flex;align-items:center;gap:12px;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bname{font-weight:700;font-size:.86rem;color:var(--matrix);letter-spacing:.05em;
+  text-shadow:0 0 12px rgba(47,227,116,.3);}
+.back{margin-left:auto;font-size:.68rem;letter-spacing:.08em;color:var(--muted);
+  text-decoration:none;padding:6px 11px;border-radius:6px;}
+.back:hover{color:var(--resolved);background:var(--panel);}
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 90px;}
+h1{font-size:1.5rem;font-weight:700;color:var(--matrix);letter-spacing:-.01em;
+  text-shadow:0 0 14px rgba(47,227,116,.18);margin-bottom:6px;}
+.eyebrow{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.updated{font-size:.66rem;color:var(--muted);margin-bottom:24px;}
+h2{font-size:.95rem;font-weight:700;color:var(--matrix);margin:32px 0 10px;
+  padding-bottom:6px;border-bottom:1px solid var(--decay);letter-spacing:.02em;}
+h3{font-size:.8rem;font-weight:700;color:var(--resolved);margin:20px 0 8px;}
+p{font-size:.8rem;margin-bottom:12px;color:#c3d2c7;}
+p strong{color:var(--resolved);}
+ul,ol{margin:0 0 14px 0;padding-left:0;list-style:none;}
+ul li{font-size:.8rem;color:#c3d2c7;margin-bottom:8px;padding-left:20px;position:relative;}
+ul li::before{content:'\203A';position:absolute;left:2px;color:var(--matrix);}
+ol{counter-reset:it;}
+ol li{font-size:.8rem;color:#c3d2c7;margin-bottom:9px;padding-left:30px;position:relative;counter-increment:it;}
+ol li::before{content:counter(it)".";position:absolute;left:0;color:var(--matrix);font-weight:700;}
+li strong{color:var(--resolved);}
+a{color:var(--matrix);}
+.notice{border-radius:8px;padding:14px 16px;margin:0 0 24px;font-size:.76rem;line-height:1.7;}
+.n-draft{background:rgba(255,215,106,.07);border:1px solid rgba(255,215,106,.3);color:var(--gold);}
+.n-info{background:rgba(47,227,116,.06);border:1px solid rgba(47,227,116,.24);color:#a8e8c4;}
+.n-warn{background:rgba(255,92,92,.07);border:1px solid rgba(255,92,92,.28);color:#ffb3b3;}
+.new{display:inline-block;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(47,227,116,.14);color:var(--matrix);padding:2px 7px;border-radius:999px;
+  margin-left:8px;vertical-align:middle;}
+.agent{background:var(--panel);border:1px solid var(--decay);border-radius:8px;padding:15px 17px;margin:0 0 16px;}
+.agent .row{font-size:.78rem;margin-bottom:4px;color:#c3d2c7;}
+.agent .row b{color:var(--resolved);display:inline-block;min-width:150px;}
+.fill{color:#5d6b62;}
+footer{border-top:1px solid var(--decay);padding:26px 20px 60px;}
+.fin{max-width:860px;margin:0 auto;font-size:.64rem;color:var(--muted);line-height:1.9;}
+.flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px;}
+.flinks a{color:var(--muted);text-decoration:none;font-size:.68rem;}
+.flinks a:hover{color:var(--matrix);}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="home.html" class="brand">
+    <svg viewBox="0 0 38 38" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="19" cy="19" r="15" fill="none" stroke="#2fe374" stroke-width="1.5" stroke-dasharray="70 24" stroke-dashoffset="6"/>
+      <circle cx="19" cy="19" r="3.5" fill="#2fe374"/>
+      <line x1="19" y1="1" x2="19" y2="5" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="19" y1="33" x2="19" y2="37" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="1" y1="19" x2="5" y2="19" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="33" y1="19" x2="37" y2="19" stroke="#2fe374" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <span class="bname">THE PERIPHERAL INITIATIVE</span>
+  </a>
+  <a href="home.html" class="back">&lsaquo; Back to the Platform</a>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow">Policy</div>
+  <h1>Terms of Service</h1>
+  <div class="updated">Last updated: August 3, 2026 &middot; Effective upon full platform launch</div>
+
+  <div class="notice n-draft">
+    &#9888; <strong>Draft — Pending Legal Review.</strong> These Terms of Service reflect the platform's
+    current policies and design intent. They have not yet been reviewed by legal counsel and are not
+    legally binding in their current form. Professional legal review is required before this document is
+    finalized and enforced.
+  </div>
+
+  <h2>1. Acceptance of terms</h2>
+  <p>By accessing or using The Peripheral Initiative platform (the "Platform"), including its website,
+  forum, artist and label directory, <strong>the Dis-Go mobile application</strong>, and any associated
+  services, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms,
+  do not use the Platform.<span class="new">Updated</span></p>
+  <p>The Peripheral Initiative ("we," "us," or "our") reserves the right to modify these Terms at any
+  time. Continued use of the Platform after changes are posted constitutes acceptance of the updated
+  Terms. We will make reasonable efforts to notify registered users of material changes.</p>
+
+  <h2>2. Eligibility</h2>
+  <p>You must be <strong>18 years of age or older</strong> to create an account and contribute to the
+  Platform. By registering, you represent and warrant that you meet this age requirement. Users who
+  misrepresent their age will have their accounts permanently terminated.</p>
+  <p>Browsing the Platform's public content (including reading forum threads and viewing artist profiles)
+  does not require an account and is available to all users regardless of age. Contributing — posting,
+  commenting, voting, saving, submitting artist profiles, or using Dis-Go — requires a verified account.</p>
+
+  <h2>3. Account registration</h2>
+
+  <h3>3.1 Identity verification</h3>
+  <p>Account creation requires verification of one unique email address or phone number ("contact
+  method"). Each contact method may only be tied to one account. By providing your contact method, you
+  confirm it is yours and that you authorize its use for account verification.</p>
+
+  <h3>3.2 One account per person</h3>
+  <p>Each person may maintain only one account. Creating multiple accounts to evade bans, inflate votes,
+  manipulate platform metrics, gain an advantage on any leaderboard, or circumvent any restriction is
+  strictly prohibited and will result in permanent termination of all associated accounts.</p>
+
+  <h3>3.3 Username rules</h3>
+  <p>Your chosen username (alias) must comply with the following requirements:</p>
+  <ul>
+    <li>Must be at least 3 characters in length</li>
+    <li><strong>Must not be offensive, hateful, racist, discriminatory, or harassing</strong> in any form</li>
+    <li>Must not impersonate another person, artist, label, business, or official entity</li>
+    <li>Must not use reserved platform identifiers (for example "admin," "moderator," "staff")</li>
+    <li>Must not use character substitutions (for example "adm1n") to circumvent the above rules</li>
+  </ul>
+  <p>Usernames are checked automatically at registration and are reportable by other users at any time.
+  Usernames found to violate these rules will be required to be changed before continued platform access.</p>
+
+  <h3>3.4 Account security</h3>
+  <p>You are responsible for maintaining the confidentiality of your account credentials. Notify us
+  immediately at <a href="mailto:lachlan@theperipheralinitiative.com">lachlan@theperipheralinitiative.com</a>
+  if you suspect unauthorized access to your account.</p>
+
+  <h3>3.5 Account recovery<span class="new">New</span></h3>
+  <p>Because one username is permanently tied to one verified contact method, recovering access requires
+  proving you are the account holder. Where you still control the verified contact method, recovery is
+  self-service. Where you do not, recovery requires review, may involve a waiting period, and we will
+  notify the original contact method before making any change. This is deliberate: a fast recovery
+  process is also a fast account-theft process.</p>
+  <p>A successful recovery re-links your existing account to a new contact method. It never creates a
+  replacement account, and your username, history and collection are preserved.</p>
+
+  <h2>4. Community standards and forum rules</h2>
+
+  <h3>4.1 Scope</h3>
+  <p>The Platform's forum is dedicated exclusively to EDM (Electronic Dance Music) and its sub-genres.
+  General music discussion outside of this scope is not permitted.</p>
+  <p>Dis-Go covers all physical music formats and is not limited to any genre.</p>
+
+  <h3>4.2 Zero-tolerance policy</h3>
+  <p>The following content is <strong>strictly prohibited</strong> and subject to immediate removal and
+  account termination without warning: hate speech, racism, discrimination on any basis, harassment,
+  bullying, stalking, sexual content, spam, unsolicited self-promotion, doxxing or publication of another
+  person's private information, content encouraging self-harm, and any content that violates applicable
+  law.</p>
+
+  <h3>4.3 Reporting</h3>
+  <p>Users may report posts, comments, messages, usernames and shop listings that violate these rules.
+  Reports are reviewed by moderators. False or malicious reporting — submitting reports with no genuine
+  good-faith basis — is a violation of these Terms and may result in suspension or termination of the
+  reporting user's account. A three-strike system applies to confirmed malicious false reports, with
+  permanent ban authority reserved for severe or repeated violations.</p>
+  <div class="notice n-info">
+    <strong>Good-faith mistakes are not penalised.</strong> A report that turns out to be unfounded, but
+    which was a reasonable judgment at the time, carries no consequence. Only reports made with no
+    genuine basis count against you.<span class="new">New</span>
+  </div>
+
+  <h3>4.4 Moderation</h3>
+  <p>Moderators are empowered to remove content and restrict users within their communities. The
+  Peripheral Initiative retains sole authority to issue platform-wide bans and to override or revoke any
+  moderator's actions.</p>
+
+  <h3>4.5 Appeals<span class="new">New</span></h3>
+  <p>If a moderator action is taken against you, you will be told what happened and why, and you may
+  appeal it. <strong>An appeal is reviewed by a different moderator than the one who made the original
+  decision.</strong> A suspended account retains enough access to read the decision and submit an appeal.
+  Where an appeal succeeds, the action is reversed.</p>
+  <p>We monitor how often individual moderators' decisions are overturned on appeal, and escalate patterns
+  for internal review.</p>
+
+  <h3>4.6 Community Guidelines<span class="new">New</span></h3>
+  <p>Our <a href="guidelines.html">Community Guidelines</a> explain these rules in plain language and set
+  out additional conduct expectations specific to Dis-Go. They form part of these Terms. Where the two
+  differ in wording, these Terms govern.</p>
+
+  <h2>5. Artist and label profiles</h2>
+
+  <h3>5.1 Verification</h3>
+  <p>Artists and labels must verify their profiles by providing evidence of genuine existing music
+  distribution before their profiles go live publicly. Profile creation is self-serve; going live requires
+  verification by platform staff.</p>
+
+  <h3>5.2 Content ownership</h3>
+  <p>Artists and labels retain <strong>full ownership</strong> of all content they upload or link through
+  the Platform. The Peripheral Initiative claims no ownership rights over any musical works, artwork, or
+  other creative content. By submitting content, you grant The Peripheral Initiative a limited,
+  non-exclusive, royalty-free license to display and promote that content on the Platform for the duration
+  of your profile's active status.</p>
+
+  <h3>5.3 AI-generated music policy</h3>
+  <p>The use of AI as a tool within a real artist's creative process is permitted. Music that is fully
+  AI-generated with no human artist behind it is not permitted on the Platform. Profiles found to
+  misrepresent AI-generated content as human-created will be removed and may be permanently banned.</p>
+
+  <h3>5.4 Prohibited content in profiles</h3>
+  <p>All zero-tolerance policies in Section 4.2 apply equally to artist and label profiles, releases, and
+  promotional content.</p>
+
+  <h2>6. Dis-Go — using the app<span class="new">New</span></h2>
+
+  <h3>6.1 What Dis-Go is</h3>
+  <p>Dis-Go is a discovery application for physical music. It shows record and media shops on a map,
+  confirms you are physically present when you check in, and lets you scan items to build a collection.
+  It awards points based on format, pressing and other release attributes.</p>
+  <p><strong>Dis-Go does not sell music and contains no marketplace.</strong> There is no way to purchase
+  a release through the app, by design.</p>
+
+  <h3>6.2 Your safety is your judgment</h3>
+  <div class="notice n-warn">
+    Dis-Go directs you toward real physical locations, some of which will be submitted by other users.
+    <strong>Only visit or add shops in public, well-lit places, and never enter a location that feels
+    unsafe.</strong> You are responsible for your own safety, your awareness of your surroundings, and
+    compliance with local law while using the app. Never trespass, and never enter private areas of a
+    business.
+  </div>
+
+  <h3>6.3 Accuracy of shop information</h3>
+  <p>Shop listings in Dis-Go are built from publicly available data and from user submissions. When you
+  contribute to a listing you agree that:</p>
+  <ul>
+    <li>You will only add a shop that genuinely exists, from a public vantage point</li>
+    <li>You will only report a shop as closed or moved if you personally observed that</li>
+    <li>You will not submit false information about a business, including its stock, hours or status</li>
+    <li>You will not report a shop as closed, unsafe, or otherwise problematic where you hold a competing
+      commercial interest</li>
+    <li>You will only submit photographs you took yourself, of the exterior, avoiding identifiable people
+      and vehicle registration plates</li>
+  </ul>
+  <p>Closure reports require independent confirmation from multiple separate accounts and moderator review
+  before any listing status changes.</p>
+
+  <h3>6.4 Fair play</h3>
+  <p>The following are prohibited and may result in loss of points, loss of standing, or termination:</p>
+  <ul>
+    <li><strong>Falsifying your location</strong>, including GPS spoofing, mock location tools, emulators
+      or modified clients</li>
+    <li><strong>Automating any part of the app</strong>, including scripted scanning or check-ins</li>
+    <li><strong>Claiming a purchase you did not make</strong> in order to obtain a shop's rewards</li>
+    <li>Using additional accounts to gain any advantage</li>
+    <li>Interfering with the scoring, reporting or verification systems</li>
+  </ul>
+  <div class="notice n-info">
+    <strong>Visiting a shop without buying anything is entirely permitted</strong> and always earns points
+    in the normal way. Only a shop's own rewards require a verified purchase, because those are funded by
+    that shop.
+  </div>
+
+  <h3>6.5 Points, ranks and rewards have no monetary value</h3>
+  <p>Points, levels, ranks, badges and standing at a shop are <strong>not currency and have no cash
+  value</strong>. They cannot be purchased, sold, transferred between accounts, exchanged for money, or
+  redeemed against anything except where a shop chooses to offer a reward.</p>
+  <p>Where a shop offers a reward, <strong>that reward is the shop's, not ours</strong>. The shop sets its
+  own thresholds and terms and is responsible for honouring them. We do not fund, guarantee, or
+  underwrite any shop's reward, and we are not a party to it.</p>
+  <p>We may adjust, recalculate or remove points obtained in breach of these Terms.</p>
+
+  <h2>7. Shop listings and businesses<span class="new">New</span></h2>
+  <p>Dis-Go includes listings for real businesses. Listings may exist before a business is aware of them,
+  because they are built from publicly available information and user contributions.</p>
+  <ul>
+    <li><strong>If you operate a listed business,</strong> you may claim your listing, correct its details,
+      or ask us to remove it. Write to
+      <a href="mailto:lachlan@theperipheralinitiative.com">lachlan@theperipheralinitiative.com</a> and we
+      will respond promptly.</li>
+    <li><strong>Claiming requires verification</strong> that you are authorised to act for the business.
+      Different levels of verification unlock different levels of control, and anything that creates value
+      requires the strongest level.</li>
+    <li><strong>Stock information is labelled by its source</strong> — community-reported, confirmed by
+      the shop, or synchronised from the shop's own system — so no listing implies a level of accuracy it
+      does not have.</li>
+    <li><strong>A shop cannot moderate its own discussion thread.</strong> Verified shops may post with a
+      badge and may report content, but cannot remove messages about them. The value of a shop thread to
+      users depends on it being candid.</li>
+    <li><strong>We will correct or remove inaccurate information about a business</strong> on request, and
+      we will investigate reports of coordinated or malicious reporting against a listing.</li>
+  </ul>
+
+  <h2>8. Intellectual property and DMCA</h2>
+
+  <h3>8.1 Platform content</h3>
+  <p>The Peripheral Initiative's brand, visual design, written copy, and platform structure are protected
+  by copyright and may not be reproduced without written permission.</p>
+
+  <h3>8.2 Third-party data</h3>
+  <p>Dis-Go retrieves release metadata from third-party sources including the Discogs API and MusicBrainz.
+  Dis-Go uses the Discogs API but is <strong>not affiliated with, sponsored, or endorsed by
+  Discogs</strong>. "Discogs" is a trademark of Zink Media, LLC. Dis-Go does not use Discogs cover images
+  or marketplace pricing data.<span class="new">New</span></p>
+
+  <h3>8.3 DMCA takedown procedure</h3>
+  <p>The Peripheral Initiative complies with the Digital Millennium Copyright Act. If you believe content
+  on the Platform infringes your copyright, submit a notice to our designated agent:</p>
+  <div class="agent">
+    <div class="row"><b>DMCA Agent</b> Lachlan Weidinger</div>
+    <div class="row"><b>Email</b> <a href="mailto:lachlan@theperipheralinitiative.com">lachlan@theperipheralinitiative.com</a></div>
+    <div class="row"><b>Mailing address</b> <span class="fill">[ mailing address for notices ]</span></div>
+    <div class="row"><b>Telephone</b> <span class="fill">[ telephone number ]</span></div>
+    <div class="row"><b>Copyright Office registration</b> DMCA-1076938</div>
+  </div>
+  <p>To be effective, your notice must include all six of the following:<span class="new">Updated</span></p>
+  <ol>
+    <li>Your <strong>physical or electronic signature</strong></li>
+    <li>Identification of the <strong>copyrighted work</strong> claimed to have been infringed</li>
+    <li>Identification of the <strong>infringing material</strong> and information sufficient to locate it</li>
+    <li>Your <strong>contact information</strong> — name, address, telephone number and email</li>
+    <li>A statement of <strong>good faith belief</strong> that the use is not authorised</li>
+    <li>A statement that the information is accurate and, <strong>under penalty of perjury</strong>, that
+      you are the owner or authorised to act on the owner's behalf</li>
+  </ol>
+
+  <h3>8.4 Counter-notices<span class="new">Updated</span></h3>
+  <p>If your material was removed and you believe that was a mistake or misidentification, you may submit
+  a counter-notice to the same contact. It must include your signature; identification of the removed
+  material and where it appeared; a statement under penalty of perjury that you believe in good faith the
+  removal was a mistake; and your name, address, telephone number and consent to the jurisdiction of the
+  appropriate federal district court.</p>
+  <p>Where we receive an effective counter-notice, we will forward it to the original complainant and may
+  restore the material in <strong>10 to 14 business days</strong> unless they notify us that they have
+  filed a court action.</p>
+  <p>Repeat infringers will have their accounts terminated. Our full procedure is set out on the
+  <a href="dmca.html">Copyright &amp; DMCA page</a>.</p>
+
+  <h2>9. Store and purchase terms</h2>
+  <p>Merchandise and other purchasable items available through the Platform are subject to additional
+  purchase terms provided at the time of transaction. Payment processing is handled by a third-party
+  payment provider; The Peripheral Initiative does not store payment card data directly. All sales are
+  subject to applicable consumer protection laws. Refund and return policies will be specified at the
+  point of purchase.</p>
+  <p><strong>This section does not apply to Dis-Go</strong>, which contains no purchasing of any
+  kind.<span class="new">Updated</span></p>
+
+  <h2>10. Termination</h2>
+  <p>We reserve the right to suspend or permanently terminate any account, at our sole discretion, for
+  violation of these Terms or for any conduct we determine to be harmful to the Platform, its community,
+  or third parties. You may also delete your account at any time through your account settings.</p>
+  <p>Upon termination, your right to access the Platform ceases immediately. Content you have posted may
+  be retained or removed at our discretion, subject to applicable law.</p>
+  <p>Where an account is terminated or deleted, the username and a one-way hash of the contact method are
+  retained so that the account cannot immediately be re-registered. This is described in our
+  <a href="privacy.html">Privacy Policy</a>.<span class="new">New</span></p>
+
+  <h2>11. Disclaimers and limitation of liability</h2>
+  <p>The Platform is provided "as is" and "as available" without warranties of any kind, express or
+  implied. We do not warrant that the Platform will be uninterrupted, error-free, or free of viruses or
+  other harmful components.</p>
+  <p>The Peripheral Initiative is not responsible for the accuracy of user-generated content, artist
+  profiles, store location data, or any third-party content linked from the Platform. We are not liable
+  for any indirect, incidental, special, or consequential damages arising from your use of the Platform.</p>
+  <p>Store location data on any associated applications is user-generated and may be inaccurate. The
+  Peripheral Initiative is not liable for losses arising from reliance on location data, including a
+  journey made to a location that proves to be closed, moved, or different from what a listing
+  described.<span class="new">Updated</span></p>
+  <p><strong>We do not endorse or vet the businesses listed in Dis-Go</strong>, and a listing is not a
+  recommendation. We are not responsible for anything that occurs during a visit to a shop, or for any
+  transaction between you and a shop.<span class="new">New</span></p>
+  <p>Availability of third-party data sources is outside our control. Features that depend on them may
+  change or become unavailable.</p>
+
+  <h2>12. Governing law</h2>
+  <p>These Terms shall be governed by the laws of the State of Maine, United States, without regard to its
+  conflict of law provisions. Any disputes arising from these Terms or your use of the Platform shall be
+  resolved in the courts of the State of Maine.</p>
+
+  <h2>13. Contact</h2>
+  <p>Questions about these Terms of Service may be directed to:</p>
+  <p><strong>The Peripheral Initiative</strong><br>
+  <a href="mailto:lachlan@theperipheralinitiative.com">lachlan@theperipheralinitiative.com</a></p>
+</div>
+
+<footer>
+  <div class="fin">
+    <div class="flinks">
+      <a href="home.html">Home</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="guidelines.html">Community Guidelines</a>
+      <a href="dmca.html">Copyright &amp; DMCA</a>
+      <a href="dis-go.html">Dis-Go</a>
+      <a href="https://www.instagram.com/peripheral.initiative" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    &copy; 2026 The Peripheral Initiative — All Rights Reserved
+  </div>
+</footer>
+
+</body>
+</html>
