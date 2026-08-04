@@ -42,7 +42,7 @@ const SUPABASE_URL      = 'https://rwcxmcmrkzcbrgbjcvwy.supabase.co';
 // Paste your publishable key between the quotes below. Use the copy
 // button in the dashboard — the on-screen version is truncated with an
 // ellipsis, and a hand-selected partial key fails in a confusing way.
-const SUPABASE_ANON_KEY = 'PASTE_PUBLISHABLE_KEY_HERE';
+const SUPABASE_ANON_KEY = 'sb_publishable_8bYyDD9e1Ib9UCOAMbdCkA_5zWtwpM4';
 
 
 /* ------------------------------------------------------------
