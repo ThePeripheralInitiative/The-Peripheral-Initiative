@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Guidelines — The Peripheral Initiative</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#070a08;--panel:#0e140f;--panel-light:#162018;--matrix:#2fe374;
+  --decay:#123821;--resolved:#e2ede4;--muted:#6f8577;--gold:#ffd76a;--danger:#ff5c5c;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--void);color:var(--resolved);font-family:'JetBrains Mono',monospace;
+  line-height:1.75;-webkit-font-smoothing:antialiased;}
+header{position:sticky;top:0;z-index:40;background:rgba(7,10,8,.97);
+  border-bottom:1px solid var(--decay);padding:10px 20px;display:flex;align-items:center;gap:12px;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bname{font-weight:700;font-size:.86rem;color:var(--matrix);letter-spacing:.05em;
+  text-shadow:0 0 12px rgba(47,227,116,.3);}
+.back{margin-left:auto;font-size:.68rem;letter-spacing:.08em;color:var(--muted);
+  text-decoration:none;padding:6px 11px;border-radius:6px;}
+.back:hover{color:var(--resolved);background:var(--panel);}
+.wrap{max-width:820px;margin:0 auto;padding:34px 20px 90px;}
+h1{font-size:1.5rem;font-weight:700;color:var(--matrix);letter-spacing:-.01em;
+  text-shadow:0 0 14px rgba(47,227,116,.18);margin-bottom:6px;}
+.eyebrow{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.updated{font-size:.66rem;color:var(--muted);margin-bottom:24px;}
+h2{font-size:.95rem;font-weight:700;color:var(--matrix);margin:32px 0 10px;
+  padding-bottom:6px;border-bottom:1px solid var(--decay);letter-spacing:.02em;}
+p{font-size:.8rem;margin-bottom:12px;color:#c3d2c7;}
+p strong{color:var(--resolved);}
+ul{margin:0 0 14px 0;padding-left:0;list-style:none;}
+ul li{font-size:.8rem;color:#c3d2c7;margin-bottom:8px;padding-left:20px;position:relative;}
+ul li::before{content:'\203A';position:absolute;left:2px;color:var(--matrix);}
+li strong{color:var(--resolved);}
+.notice{border-radius:8px;padding:14px 16px;margin:0 0 24px;font-size:.76rem;line-height:1.7;}
+.n-draft{background:rgba(255,215,106,.07);border:1px solid rgba(255,215,106,.3);color:var(--gold);}
+.n-info{background:rgba(47,227,116,.06);border:1px solid rgba(47,227,116,.24);color:#a8e8c4;}
+.short{background:var(--panel);border-left:3px solid var(--matrix);border-radius:0 8px 8px 0;
+  padding:16px 18px;margin:0 0 26px;}
+.short p{font-size:.86rem;color:var(--resolved);margin-bottom:8px;}
+.short p:last-child{margin-bottom:0;}
+.never{background:rgba(255,92,92,.06);border:1px solid rgba(255,92,92,.28);
+  border-radius:8px;padding:16px 18px;margin:0 0 18px;}
+.never .lbl{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--danger);margin-bottom:10px;font-weight:700;}
+.never ul li{color:#ffc9c9;}
+.never ul li::before{content:'\00d7';color:var(--danger);}
+.step{background:var(--panel);border:1px solid var(--decay);border-radius:8px;
+  padding:13px 16px;margin-bottom:9px;}
+.step .n{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--matrix);margin-bottom:4px;}
+.step .t{font-size:.79rem;color:#c3d2c7;}
+.step .t b{color:var(--resolved);}
+footer{border-top:1px solid var(--decay);padding:26px 20px 60px;}
+.fin{max-width:820px;margin:0 auto;font-size:.64rem;color:var(--muted);line-height:1.9;}
+.flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px;}
+.flinks a{color:var(--muted);text-decoration:none;font-size:.68rem;}
+.flinks a:hover{color:var(--matrix);}
+</style>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="The rules we enforce on the forum and in Dis-Go.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Peripheral Initiative">
+<meta property="og:title" content="Community Guidelines — The Peripheral Initiative">
+<meta property="og:description" content="The rules we enforce on the forum and in Dis-Go.">
+<meta property="og:image" content="https://theperipheralinitiative.com/og-image.png">
+<meta property="og:url" content="https://theperipheralinitiative.com/guidelines.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Community Guidelines — The Peripheral Initiative">
+<meta name="twitter:description" content="The rules we enforce on the forum and in Dis-Go.">
+<meta name="twitter:image" content="https://theperipheralinitiative.com/og-image.png">
+<meta name="theme-color" content="#070a08">
+</head>
+<body>
+
+<header>
+  <a href="home.html" class="brand">
+    <img src="pi-logo.png" width="28" height="28" alt="The Peripheral Initiative" style="display:block;flex-shrink:0;" />
+    <span class="bname">THE PERIPHERAL INITIATIVE</span>
+  </a>
+  <a href="home.html" class="back">&lsaquo; Back</a>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow">Policy</div>
+  <h1>Community Guidelines</h1>
+  <div class="updated">Last updated: August 3, 2026 &middot; Applies to the Peripheral forum and to Dis-Go</div>
+
+  <div class="notice n-draft">
+    <strong>Draft pending legal review.</strong> These are the rules we intend to enforce and they
+    reflect how the products are actually built. The wording has not yet been reviewed by an attorney.
+  </div>
+
+  <div class="short">
+    <p><strong>The short version.</strong> This is a place for people who care about music. Talk to
+    each other the way you would in a good record shop &mdash; like the other person is a real person
+    who was there first.</p>
+    <p>Be honest about what you have found and where. Do not use other people as material. If something
+    is wrong, report it; if you were wrong, say so.</p>
+  </div>
+
+  <h2>Who can be here</h2>
+  <p>You must be <strong>18 or older</strong> to hold an account. This is not negotiable and it applies
+  to both the forum and Dis-Go.</p>
+  <p>One person, one account. Your username is permanently tied to one verified email address or phone
+  number. Creating additional accounts to get around a restriction, inflate a leaderboard, or vote on
+  your own submissions is not allowed.</p>
+
+  <h2>Your username</h2>
+  <p>Your username is the first thing anyone sees, and for most people it is the only thing they will
+  ever know about you. It cannot be hateful, harassing, sexually explicit, or chosen to impersonate
+  another person, a real business, or our staff.</p>
+  <p>Names are checked automatically at signup and can be reported afterwards. If a name is found to
+  break these rules you will be asked to change it before you can keep using your account, and you can
+  appeal that decision.</p>
+
+  <h2>Store discussions</h2>
+  <p>Every discussion thread in Dis-Go belongs to a <strong>specific shop</strong>, not to whoever
+  happens to be standing nearby. That is a deliberate design decision: we do not want a feature that
+  lets someone work out where another person physically is.</p>
+  <p>There are <strong>no private messages</strong> in Dis-Go, and we have no plans to add them. If we
+  ever reconsider, it will not happen quietly.</p>
+  <p>In a store thread: talk about the shop and the music. Answer people's questions about stock if you
+  know the answer. Do not use a shop's thread to attack the shop, its staff, or another user.</p>
+
+  <h2>Photographs you submit</h2>
+  <p>Dis-Go asks for live photographs in a few places &mdash; adding a shop, reporting one as closed, or
+  verifying a check-in when you have no signal. Every one of those photographs is reviewed before
+  anyone other than you can see it.</p>
+  <ul>
+    <li>Photograph the <strong>storefront</strong>, not the people outside it.</li>
+    <li>Avoid capturing <strong>faces, vehicle plates, or anything through a window</strong> that
+      someone would not expect to be published.</li>
+    <li>Never photograph the inside of a shop without asking. It is their space.</li>
+    <li>Do not submit a photograph you did not take.</li>
+  </ul>
+
+  <h2>Being accurate about shops</h2>
+  <p>Real businesses depend on what this app says about them. Getting it wrong costs them customers.</p>
+  <ul>
+    <li><strong>Only add a shop that exists</strong>, and only from outside it, in a public and well-lit
+      place. If somewhere feels unsafe, do not go in and do not add it &mdash; trust that instinct.</li>
+    <li><strong>Only report a shop as closed if you saw that it was.</strong> Closure reports need
+      confirmation from several separate people and a moderator's review before anything changes, but
+      the process starts with you telling the truth.</li>
+    <li><strong>Do not mark a competitor's shop as closed.</strong> If you have a commercial interest in
+      a listing, say so rather than acting on it.</li>
+    <li>If you flag something as unsafe, mean it. That flag pauses check-ins at a real business
+      immediately.</li>
+  </ul>
+
+  <h2>Playing fair</h2>
+  <p>The point of Dis-Go is that you actually went somewhere. Everything in the scoring assumes that.</p>
+  <ul>
+    <li><strong>No faked location.</strong> Spoofing GPS is detected, earns nothing, and is flagged.</li>
+    <li><strong>No claiming purchases you did not make.</strong> Store rewards come out of a shop's own
+      margin. Submitting a purchase you cannot back up may cost you your standing at that shop, and
+      doing it deliberately or repeatedly may cost you your account.</li>
+    <li><strong>Browsing without buying is completely fine.</strong> That is what record shops are for.
+      It earns you points like anything else. Only the shop's own rewards require a real purchase.</li>
+    <li><strong>Do not automate anything.</strong> Scripts, emulators, and modified clients are not
+      welcome.</li>
+  </ul>
+
+  <h2>Reporting, and reporting honestly</h2>
+  <p>You can report a username, a message, or a shop listing. Reports go to a moderator, not into a
+  void, and you will not be told who reported what about whom.</p>
+  <div class="notice n-info">
+    <strong>Getting it wrong in good faith costs you nothing.</strong> If you report something that
+    turns out to be fine, and it was a reasonable mistake, nothing happens to you. Reporting real
+    problems should never feel risky. What does count against you is reporting things you know are fine
+    &mdash; that carries warnings, and repeated abuse of the report system can end an account.
+  </div>
+
+  <h2>Never allowed</h2>
+  <div class="never">
+    <div class="lbl">No warnings, no second chances</div>
+    <ul>
+      <li>Harassment, threats, or targeting a person</li>
+      <li>Hate speech or slurs of any kind</li>
+      <li>Stalking, or trying to work out where someone physically is</li>
+      <li>Sexual content, and anything at all involving minors</li>
+      <li>Doxxing or publishing anyone's private information</li>
+      <li>Encouraging self-harm</li>
+      <li>Coordinated attacks on a person, a shop, or a listing</li>
+      <li>Selling accounts, standing, or rewards</li>
+    </ul>
+  </div>
+
+  <h2>What happens when a rule is broken</h2>
+  <div class="step"><div class="n">Step 01</div>
+    <div class="t"><b>A moderator reviews it.</b> Not an automated ban. A person looks at the report and
+    the context.</div></div>
+  <div class="step"><div class="n">Step 02</div>
+    <div class="t"><b>The response fits the problem.</b> That might mean removing a message, requiring a
+    username change, pausing a feature, or removing an account. Items in the list above skip straight to
+    the end.</div></div>
+  <div class="step"><div class="n">Step 03</div>
+    <div class="t"><b>You are told what happened and why.</b> A suspended account can still sign in far
+    enough to read the decision and appeal it.</div></div>
+  <div class="step"><div class="n">Step 04</div>
+    <div class="t"><b>You can appeal, and a different moderator reviews it.</b> Never the one who made
+    the original call. If the appeal succeeds, the action is reversed.</div></div>
+  <div class="step"><div class="n">Step 05</div>
+    <div class="t"><b>We watch the moderators too.</b> How often a moderator's decisions get overturned
+    on appeal is tracked, and a pattern of overturns is escalated for review.</div></div>
+
+  <h2>Shops and their own threads</h2>
+  <p>A verified shop can claim its listing, correct its details, and speak in its own thread with a
+  badge showing it is really them.</p>
+  <p><strong>Shops cannot moderate their own thread.</strong> The reason people trust a store thread is
+  that it tells them what is genuinely on the shelf, including when the website said otherwise. An owner
+  who could delete that would remove the only thing making it useful. Shops can report content like
+  anyone else.</p>
+
+  <h2>Copyright</h2>
+  <p>Do not post work that is not yours to post. Our full notice-and-takedown procedure is on the
+  <a href="dmca.html" style="color:var(--matrix)">Copyright &amp; DMCA page</a>.</p>
+
+  <h2>Changes</h2>
+  <p>These guidelines will change as the products do. Substantive changes will be announced rather than
+  slipped in, and the date at the top always reflects the current version.</p>
+</div>
+
+<footer>
+  <div class="fin">
+    <div class="flinks">
+      <a href="home.html">Home</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="dmca.html">Copyright &amp; DMCA</a>
+      <a href="dis-go.html">Dis-Go</a>
+    </div>
+    The Peripheral Initiative &middot; Community Guidelines &middot; Draft pending legal review.
+  </div>
+</footer>
+
+</body>
+</html>
