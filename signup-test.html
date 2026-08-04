@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — The Peripheral Initiative</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #070a08; --panel: #0e140f; --panel-light: #162018;
+    --matrix: #2fe374; --decay: #123821; --resolved: #e2ede4;
+    --muted: #6f8577; --gold: #ffd76a; --danger: #ff5c5c;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #rain-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .page-wrap {
+    margin-top: 26px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 16px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    margin-bottom: 24px;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover { color: var(--matrix); }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--decay);
+    border-radius: 14px;
+    padding: 32px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .card-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--matrix);
+    margin-bottom: 8px;
+    text-shadow: 0 0 12px rgba(47,227,116,0.25);
+  }
+
+  .card-body {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .card-body em { color: var(--resolved); font-style: normal; }
+
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .progress-dot {
+    flex: 1;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--panel-light);
+    transition: background 0.3s;
+  }
+
+  .progress-dot.done { background: var(--matrix); }
+
+  .field-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .field-input {
+    width: 100%;
+    background: var(--panel-light);
+    border: 1.5px solid var(--decay);
+    border-radius: 8px;
+    padding: 11px 13px;
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field-input:focus { border-color: var(--matrix); }
+  .field-input.valid { border-color: var(--matrix); }
+  .field-input.invalid { border-color: var(--danger); }
+
+  .field-msg {
+    font-size: 0.65rem;
+    margin: 7px 0 16px;
+    min-height: 14px;
+  }
+
+  .field-msg.neutral { color: var(--muted); }
+  .field-msg.valid { color: var(--matrix); }
+  .field-msg.invalid { color: var(--danger); }
+
+  .social-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .social-divider::before, .social-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--decay);
+  }
+
+  .social-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--panel-light);
+    border: 1px solid var(--decay);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--resolved);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: border-color 0.15s;
+  }
+
+  .social-btn:hover { border-color: var(--muted); }
+
+  .policy-note {
+    background: var(--panel-light);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.62rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .btn-row { display: flex; gap: 10px; }
+
+  .btn {
+    flex: 1;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid var(--decay);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-ghost { background: transparent; color: var(--muted); }
+  .btn-ghost:hover { color: var(--resolved); border-color: var(--muted); }
+
+  .btn-primary {
+    background: var(--matrix);
+    color: var(--void);
+    border-color: var(--matrix);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { background: #b6ffd8; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .card-footer {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .card-footer a { color: var(--matrix); text-decoration: none; }
+  .card-footer a:hover { text-decoration: underline; }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(47,227,116,0.12);
+    border: 2px solid var(--matrix);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin: 0 auto 16px;
+  }
+
+  /* ---- added for password auth ---- */
+  .strength-track {
+    height: 3px;
+    background: var(--decay);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 8px 0 0;
+  }
+  .strength-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--danger);
+    border-radius: 999px;
+    transition: width 0.25s ease, background 0.25s ease;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    cursor: pointer;
+    margin-top: 4px;
+    user-select: none;
+  }
+  .checkbox-row input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px; height: 15px;
+    border: 1.5px solid var(--decay);
+    border-radius: 4px;
+    background: var(--panel-light);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .checkbox-row input[type="checkbox"]:checked {
+    background: var(--matrix);
+    border-color: var(--matrix);
+  }
+  .checkbox-row input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--void);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .checkbox-row:hover { color: var(--resolved); }
+  .stay-note {
+    font-size: 0.62rem;
+    color: var(--muted);
+    margin: 7px 0 4px;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+</style>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Create an account to join the conversation. 18+.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Peripheral Initiative">
+<meta property="og:title" content="Sign Up — The Peripheral Initiative">
+<meta property="og:description" content="Create an account to join the conversation. 18+.">
+<meta property="og:image" content="https://theperipheralinitiative.com/og-image.png">
+<meta property="og:url" content="https://theperipheralinitiative.com/signup-test.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sign Up — The Peripheral Initiative">
+<meta name="twitter:description" content="Create an account to join the conversation. 18+.">
+<meta name="twitter:image" content="https://theperipheralinitiative.com/og-image.png">
+<meta name="theme-color" content="#070a08">
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:999;background:#ffd76a;color:#070a08;
+     font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.08em;
+     text-align:center;padding:6px 10px;">
+  TEST PAGE &mdash; not the live sign-up. Safe to delete.
+</div>
+<canvas id="rain-canvas"></canvas>
+
+<div class="page-wrap">
+  <a href="home-test.html" class="back-link">← Back to The Peripheral Initiative</a>
+
+  <div class="card" id="signup-card">
+    <!-- Populated by JS -->
+  </div>
+
+  <div class="card-footer" style="margin-top:14px;">
+    Already have an account? <a href="login-test.html">Log In</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+/* ============================================================
+   SIGN UP — password + email confirmation via Supabase
+   ------------------------------------------------------------
+   Flow:
+     1  birthdate (18+)
+     2  email
+     3  password + confirm
+     4  6-digit code from the confirmation email
+     5  username
+     6  done
+
+   WHY THE USERNAME COMES LAST
+
+   The database policy only accepts a profile row whose id matches
+   the authenticated user, so there has to be an authenticated user
+   before a username can be claimed. Useful side effect: nobody can
+   squat names without a confirmed email behind them.
+   ============================================================ */
+
+let step = 1;
+let chosenEmail     = '';
+let chosenPassword  = '';
+let ageVerified     = false;
+let resumeToUsername = false;   // authenticated already, only needs the age gate + a name
+let chosenAlias     = '';
+let aliasCheckTimer = null;
+
+const LOGO_SVG = `
+  <div class="logo-row">
+    <img src="pi-logo.png" width="28" height="28" alt="The Peripheral Initiative" style="display:block;flex-shrink:0;" />
+    <span style="font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;">THE PERIPHERAL INITIATIVE</span>
+  </div>`;
+
+function progressBar(done) {
+  return `<div class="progress-bar">${
+    [1,2,3,4,5].map(i => `<div class="progress-dot ${i <= done ? 'done' : ''}"></div>`).join('')
+  }</div>`;
+}
+
+function setMsg(id, cls, text) {
+  const el = document.getElementById(id);
+  if (el) { el.className = 'field-msg ' + cls; el.textContent = text; }
+}
+
+function setField(id, cls) {
+  const el = document.getElementById(id);
+  if (el) el.className = 'field-input' + (cls ? ' ' + cls : '');
+}
+
+
+/* ------------------------------------------------------------
+   RESUME — runs before anything renders.
+
+   Three states an arriving visitor can be in:
+     - fully signed up          -> send them home
+     - confirmed, no username   -> drop at the username step
+     - brand new                -> start at step 1
+
+   The middle case is easy to forget and very easy to hit: close the
+   tab after entering the code, or return from an OAuth redirect.
+   Without this, the person is stranded with a nameless account.
+   ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   Throw-proof startup check.
+
+   `typeof x` normally cannot throw — except on a let/const that
+   exists but has not been initialised yet, which is precisely the
+   case when supabase-config.js loaded and then failed partway.
+   Hence the try/catch: this function must NEVER be the thing that
+   breaks, because its whole job is to explain what broke.
+   ------------------------------------------------------------ */
+function configProblem() {
+  try {
+    if (typeof PERIPHERAL_CONFIG_LOADED === 'undefined') {
+      return 'CONFIG_MISSING';
+    }
+  } catch (e) {
+    return 'CONFIG_MISSING';
+  }
+  try {
+    if (sb === null) return 'CLIENT_FAILED';
+  } catch (e) {
+    return 'CONFIG_MISSING';
+  }
+  return null;
+}
+
+function configErrorHTML(logo) {
+  const problem = configProblem();
+
+  if (problem === 'CONFIG_MISSING') {
+    console.error(
+      '[Peripheral] supabase-config.js did not load.\n' +
+      'Check that:\n' +
+      '  1. supabase-config.js sits in the SAME folder as this page\n' +
+      '  2. it was pushed to GitHub alongside signup.html and login.html\n' +
+      '  3. the filename matches exactly (lowercase, with the .js)\n' +
+      'Open the Network tab and look for a 404 on supabase-config.js.'
+    );
+    return `
+      ${logo}
+      <div class="card-title" style="color:var(--danger);">Configuration missing</div>
+      <div class="card-body">This page could not load <strong style="color:var(--resolved);">supabase-config.js</strong>.
+      It has to sit in the same folder as this file and be uploaded with it.</div>
+      <div class="card-body" style="font-size:.68rem;">Open the browser console for details.</div>
+      <a href="home-test.html" class="btn btn-ghost" style="display:block;text-align:center;">Back</a>`;
+  }
+
+  if (problem === 'CLIENT_FAILED') {
+    let detail = 'Could not connect to the database.';
+    try { if (SUPABASE_CONFIG_ERROR) detail = SUPABASE_CONFIG_ERROR; } catch (e) {}
+    return `
+      ${logo}
+      <div class="card-title" style="color:var(--danger);">Not available right now</div>
+      <div class="card-body">${detail}</div>
+      <div class="card-body" style="font-size:.68rem;">Open the browser console for details.</div>
+      <a href="home-test.html" class="btn btn-ghost" style="display:block;text-align:center;">Back</a>`;
+  }
+
+  return null;
+}
+
+async function boot() {
+  const configHTML = configErrorHTML(LOGO_SVG);
+  if (configHTML) {
+    document.getElementById('signup-card').innerHTML = configHTML;
+    return;
+  }
+
+  try {
+    const user = await currentUser();
+    if (user) {
+      const profile = await currentProfile();
+      if (profile) { window.location.href = 'home-test.html'; return; }
+
+      try {
+        ageVerified = sessionStorage.getItem('pi_age_ok') === 'true';
+      } catch (e) {}
+
+      if (ageVerified) {
+        step = 5;                 // confirmed and past the gate: just pick a name
+      } else {
+        // Authenticated, but this session has no record of the age gate
+        // (a returning OAuth redirect, or a reopened tab). We cannot
+        // assert 18+ on their behalf, so ask again before the name.
+        resumeToUsername = true;
+        step = 1;
+      }
+      renderStep();
+      return;
+    }
+  } catch (e) {
+    console.error('Startup check failed:', e);
+  }
+  renderStep();
+}
+
+
+function renderStep() {
+  const card = document.getElementById('signup-card');
+
+  /* ---- 1. age gate ---- */
+  if (step === 1) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      ${progressBar(1)}
+      <div class="card-eyebrow">Step 1 of 5</div>
+      <div class="card-title">Date of Birth</div>
+      <div class="card-body">The Peripheral Initiative requires users to be 18 or older.</div>
+      <label class="field-label">Your birthdate</label>
+      <input type="date" class="field-input" id="birthdate-input">
+      <div class="field-msg neutral" id="age-msg"></div>
+      <div class="btn-row">
+        <a href="home-test.html" class="btn btn-ghost">Cancel</a>
+        <button class="btn btn-primary" onclick="checkAge()">Continue</button>
+      </div>`;
+  }
+
+  /* ---- 1.5 under age ---- */
+  if (step === 1.5) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      <div class="card-title" style="color:var(--danger);">This platform is 18+</div>
+      <div class="card-body">Based on the birthdate entered, this account doesn't meet the minimum age requirement. You must be 18 or older to create an account.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="step=1;renderStep();">Try Again</button>
+        <a href="home-test.html" class="btn btn-primary">Go Back</a>
+      </div>`;
+  }
+
+  /* ---- 2. email ---- */
+  if (step === 2) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      ${progressBar(2)}
+      <div class="card-eyebrow">Step 2 of 5</div>
+      <div class="card-title">Your Email</div>
+      <div class="card-body">One email per person — <em>this ties permanently to your username and can never be reassigned.</em> We'll send a code to confirm it's yours.</div>
+      ${OAUTH_ENABLED ? `
+        <button class="social-btn" onclick="socialSignup('apple')">🍎 Continue with Apple</button>
+        <button class="social-btn" onclick="socialSignup('google')">🔵 Continue with Google</button>
+        <div class="social-divider">or use email</div>
+      ` : ''}
+      <label class="field-label">Email address</label>
+      <input type="email" class="field-input" id="email-input" placeholder="email@domain.com"
+             autocomplete="email" oninput="onEmailInput()" onkeydown="if(event.key==='Enter')goToPassword()">
+      <div class="field-msg neutral" id="email-msg">A 6-digit code will be sent here.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="step=1;renderStep();">Back</button>
+        <button class="btn btn-primary" id="email-continue" disabled onclick="goToPassword()">Continue</button>
+      </div>`;
+  }
+
+  /* ---- 3. password ---- */
+  if (step === 3) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      ${progressBar(3)}
+      <div class="card-eyebrow">Step 3 of 5</div>
+      <div class="card-title">Create a Password</div>
+      <div class="card-body">At least ${MIN_PASSWORD_LENGTH} characters, with an uppercase letter, a lowercase letter, a number, and a symbol. <em>A few unrelated words plus a number and a punctuation mark</em> is both strong and memorable.</div>
+
+      <label class="field-label">Password</label>
+      <input type="password" class="field-input" id="password-input"
+             autocomplete="new-password" oninput="onPasswordInput()">
+      <div class="strength-track"><div class="strength-fill" id="strength-fill"></div></div>
+      <div class="field-msg neutral" id="password-msg">Choose something you'll remember.</div>
+
+      <label class="field-label">Confirm password</label>
+      <input type="password" class="field-input" id="password-confirm"
+             autocomplete="new-password" oninput="onPasswordInput()"
+             onkeydown="if(event.key==='Enter')createAccount()">
+      <div class="field-msg neutral" id="confirm-msg"></div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="show-password" onchange="togglePasswordVisible()">
+        <span>Show passwords</span>
+      </label>
+
+      <div class="btn-row" style="margin-top:14px;">
+        <button class="btn btn-ghost" onclick="step=2;renderStep();">Back</button>
+        <button class="btn btn-primary" id="password-continue" disabled onclick="createAccount()">Continue</button>
+      </div>`;
+  }
+
+  /* ---- 4. confirmation code ---- */
+  if (step === 4) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      ${progressBar(4)}
+      <div class="card-eyebrow">Step 4 of 5</div>
+      <div class="card-title">Confirm Your Email</div>
+      <div class="card-body">We sent a 6-digit code to <em>${chosenEmail}</em>. Enter it below to prove this address is yours.</div>
+      <label class="field-label">6-digit code</label>
+      <input type="text" class="field-input" id="code-input" inputmode="numeric" autocomplete="one-time-code"
+             maxlength="6" placeholder="000000" style="letter-spacing:0.4em;text-align:center;font-size:1.1rem;"
+             oninput="onCodeInput()" onkeydown="if(event.key==='Enter')verifyCode()">
+      <div class="field-msg neutral" id="code-msg">Check your inbox, including spam.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="step=2;renderStep();">Back</button>
+        <button class="btn btn-primary" id="code-continue" disabled onclick="verifyCode()">Verify</button>
+      </div>
+      <div class="card-footer" style="margin-top:14px;">
+        Didn't arrive? <a href="#" onclick="resendCode();return false;">Send it again</a>
+      </div>`;
+  }
+
+  /* ---- 5. username ---- */
+  if (step === 5) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      ${progressBar(5)}
+      <div class="card-eyebrow">Step 5 of 5</div>
+      <div class="card-title">Choose Your Alias</div>
+      <div class="card-body">Confirmed. This is what other users see on the forum — <em>pick something that's yours.</em></div>
+      <label class="field-label">Username</label>
+      <input type="text" class="field-input" id="alias-input" placeholder="e.g. VinylVortex"
+             autocomplete="username" oninput="onAliasInput()" onkeydown="if(event.key==='Enter')finishSignup()">
+      <div class="field-msg neutral" id="alias-msg">3–20 characters. Letters, numbers, underscores.</div>
+      <div class="policy-note">🛡️ Offensive, hateful, racist, or impersonating usernames are never allowed — no exceptions. Checked automatically and reportable by other users after the fact.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="abandonSignup()">Cancel</button>
+        <button class="btn btn-primary" id="alias-continue" disabled onclick="finishSignup()">Create Account</button>
+      </div>`;
+  }
+
+  /* ---- 6. done ---- */
+  if (step === 6) {
+    card.innerHTML = `
+      ${LOGO_SVG}
+      <div class="success-icon">✓</div>
+      <div class="card-title" style="text-align:center;">You're in</div>
+      <div class="card-body" style="text-align:center;">Welcome to The Peripheral Initiative, <em>${chosenAlias}</em>. Your account is confirmed and live.</div>
+      <a href="home-test.html" class="btn btn-primary" style="display:block;text-align:center;margin-top:8px;">Enter the Forum</a>`;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   Age gate — client-side by necessity. Self-reported birthdates
+   cannot be verified without government ID, the same position every
+   comparable platform is in. The Terms of Service carries this.
+   ------------------------------------------------------------ */
+function checkAge() {
+  const inp = document.getElementById('birthdate-input');
+  if (!inp.value) { setMsg('age-msg','invalid','Please enter your birthdate.'); return; }
+
+  /* Parse the parts by hand rather than new Date("1990-05-15").
+     That string is treated as UTC midnight, which in Portland is
+     the evening BEFORE — so getDate() came back a day early and
+     the age could be off by one. Only matters for someone whose
+     18th birthday is today, which is exactly the person the gate
+     must get right. */
+  const parts = inp.value.split('-');
+  if (parts.length !== 3) {
+    setMsg('age-msg','invalid','Please enter a valid date.');
+    return;
+  }
+  const by = parseInt(parts[0], 10);
+  const bm = parseInt(parts[1], 10);
+  const bd = parseInt(parts[2], 10);
+
+  const today = new Date();
+  let age = today.getFullYear() - by;
+  const monthDiff = (today.getMonth() + 1) - bm;
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < bd)) age--;
+
+  if (age > 130 || by < 1900) {
+    setMsg('age-msg','invalid','Please check that date.');
+    return;
+  }
+
+  if (age < 18) { step = 1.5; renderStep(); return; }
+
+  // The date itself is never stored or transmitted — only the outcome.
+  ageVerified = true;
+  try { sessionStorage.setItem('pi_age_ok', 'true'); } catch (e) {}
+
+  step = resumeToUsername ? 5 : 2;
+  renderStep();
+}
+
+
+/* ------------------------------------------------------------
+   OAuth. Requires the provider configured in the Supabase dashboard
+   first; Apple additionally requires a paid Apple Developer
+   account. Until then these error plainly rather than fail silently.
+   ------------------------------------------------------------ */
+async function socialSignup(provider) {
+  try {
+    const { error } = await sb.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: window.location.origin + '/signup-test.html' }
+    });
+    if (error) throw error;
+    // Browser redirects away; boot() picks it up on return.
+  } catch (e) {
+    setMsg('email-msg','invalid',
+      provider + ' sign-in is not configured yet. Use email for now.');
+  }
+}
+
+
+function onEmailInput() {
+  const val = document.getElementById('email-input').value.trim();
+  const btn = document.getElementById('email-continue');
+
+  if (!val) {
+    setField('email-input','');
+    setMsg('email-msg','neutral','A 6-digit code will be sent here.');
+    btn.disabled = true;
+    return;
+  }
+  if (!looksLikeEmail(val)) {
+    setField('email-input','invalid');
+    setMsg('email-msg','invalid',"That doesn't look like a valid email address.");
+    btn.disabled = true;
+    return;
+  }
+  setField('email-input','valid');
+  setMsg('email-msg','valid','Looks good.');
+  btn.disabled = false;
+}
+
+
+function goToPassword() {
+  const val = document.getElementById('email-input').value.trim().toLowerCase();
+  if (!looksLikeEmail(val)) return;
+  chosenEmail = val;
+  step = 3;
+  renderStep();
+}
+
+
+function togglePasswordVisible() {
+  const on = document.getElementById('show-password').checked;
+  ['password-input','password-confirm'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.type = on ? 'text' : 'password';
+  });
+}
+
+
+function onPasswordInput() {
+  const pw      = document.getElementById('password-input').value;
+  const confirm = document.getElementById('password-confirm').value;
+  const btn     = document.getElementById('password-continue');
+  const fill    = document.getElementById('strength-fill');
+
+  const score = passwordStrength(pw);
+  if (fill) {
+    fill.style.width      = (score * 25) + '%';
+    fill.style.background = STRENGTH_COLOR[score];
+  }
+
+  const problem = passwordProblem(pw);
+  if (problem) {
+    setField('password-input', pw ? 'invalid' : '');
+    setMsg('password-msg', pw ? 'invalid' : 'neutral', pw ? problem : "Choose something you'll remember.");
+    setMsg('confirm-msg','neutral','');
+    btn.disabled = true;
+    return;
+  }
+
+  setField('password-input','valid');
+  setMsg('password-msg','valid', STRENGTH_LABEL[score] + ' password.');
+
+  if (!confirm) {
+    setField('password-confirm','');
+    setMsg('confirm-msg','neutral','Type it once more.');
+    btn.disabled = true;
+    return;
+  }
+  if (confirm !== pw) {
+    setField('password-confirm','invalid');
+    setMsg('confirm-msg','invalid','Passwords do not match.');
+    btn.disabled = true;
+    return;
+  }
+
+  setField('password-confirm','valid');
+  setMsg('confirm-msg','valid','Passwords match.');
+  btn.disabled = false;
+}
+
+
+/* ------------------------------------------------------------
+   Create the auth account. Supabase sends the confirmation email
+   from here.
+
+   Note there is no "is this email already taken?" pre-check —
+   telling a stranger whether an address has an account is an
+   enumeration leak that lets someone test a list of emails against
+   your user base. Supabase handles the duplicate case itself.
+   ------------------------------------------------------------ */
+async function createAccount() {
+  const btn = document.getElementById('password-continue');
+  if (btn.disabled) return;
+
+  chosenPassword = document.getElementById('password-input').value;
+  btn.disabled = true;
+  btn.textContent = 'Creating…';
+
+  try {
+    const { error } = await sb.auth.signUp({
+      email: chosenEmail,
+      password: chosenPassword,
+      options: { emailRedirectTo: window.location.origin + '/signup-test.html' }
+    });
+    if (error) throw error;
+
+    step = 4;
+    renderStep();
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Continue';
+    setMsg('confirm-msg','invalid', friendlyAuthError(e));
+  }
+}
+
+
+async function resendCode() {
+  setMsg('code-msg','neutral','Sending a new code…');
+  try {
+    const { error } = await sb.auth.resend({ type: 'signup', email: chosenEmail });
+    if (error) throw error;
+    setMsg('code-msg','valid','New code sent.');
+  } catch (e) {
+    setMsg('code-msg','invalid', friendlyAuthError(e));
+  }
+}
+
+
+function onCodeInput() {
+  const inp = document.getElementById('code-input');
+  inp.value = inp.value.replace(/[^0-9]/g,'');
+  document.getElementById('code-continue').disabled = inp.value.length !== 6;
+}
+
+
+async function verifyCode() {
+  const code = document.getElementById('code-input').value.trim();
+  const btn  = document.getElementById('code-continue');
+  if (code.length !== 6) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Verifying…';
+
+  try {
+    const { error } = await sb.auth.verifyOtp({
+      email: chosenEmail, token: code, type: 'signup'
+    });
+    if (error) throw error;
+
+    const existing = await currentProfile();
+    if (existing) { window.location.href = 'home-test.html'; return; }
+
+    step = 5;
+    renderStep();
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Verify';
+    setField('code-input','invalid');
+    setMsg('code-msg','invalid', friendlyAuthError(e));
+  }
+}
+
+
+/* Debounced so we aren't querying the database on every keystroke. */
+function onAliasInput() {
+  const raw = document.getElementById('alias-input').value;
+  const btn = document.getElementById('alias-continue');
+  btn.disabled = true;
+  clearTimeout(aliasCheckTimer);
+
+  if (!raw.trim()) {
+    setField('alias-input','');
+    setMsg('alias-msg','neutral','3–20 characters. Letters, numbers, underscores.');
+    return;
+  }
+
+  const problem = localUsernameProblem(raw);
+  if (problem) {
+    setField('alias-input','invalid');
+    setMsg('alias-msg','invalid', problem);
+    return;
+  }
+
+  setMsg('alias-msg','neutral','Checking availability…');
+  aliasCheckTimer = setTimeout(async () => {
+    try {
+      const free = await usernameIsFree(raw);
+      if (free) {
+        chosenAlias = raw.trim();
+        setField('alias-input','valid');
+        setMsg('alias-msg','valid','Available.');
+        btn.disabled = false;
+      } else {
+        setField('alias-input','invalid');
+        setMsg('alias-msg','invalid','That username is already taken.');
+      }
+    } catch (e) {
+      setMsg('alias-msg','invalid','Could not check availability. Try again.');
+    }
+  }, 400);
+}
+
+
+/* ------------------------------------------------------------
+   Create the profile row.
+
+   Error 23505 is Postgres' unique-violation code. It fires if
+   someone claimed the same name in the seconds between the
+   availability check and this insert — the database acting as
+   referee rather than the browser.
+   ------------------------------------------------------------ */
+async function finishSignup() {
+  const btn = document.getElementById('alias-continue');
+  if (btn.disabled) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Creating…';
+
+  try {
+    const user = await currentUser();
+    if (!user) { step = 2; renderStep(); return; }
+
+    const { error } = await sb.from('profiles').insert({
+      id: user.id,
+      username: chosenAlias,
+      age_verified: ageVerified,
+      role: 'member'
+    });
+
+    if (error) {
+      if (error.code === '23505') {
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+        setField('alias-input','invalid');
+        setMsg('alias-msg','invalid','Someone just took that name. Try another.');
+        return;
+      }
+      throw error;
+    }
+
+    clearLegacyLocalStorage();
+    try { sessionStorage.removeItem('pi_age_ok'); } catch (e) {}
+
+    step = 6;
+    renderStep();
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Create Account';
+    setMsg('alias-msg','invalid', friendlyAuthError(e));
+  }
+}
+
+
+/* Someone confirmed an email but decided not to finish. Sign the
+   half-made session out so they aren't stranded next visit. */
+async function abandonSignup() {
+  try { await sb.auth.signOut(); } catch (e) {}
+  try { sessionStorage.removeItem('pi_age_ok'); } catch (e) {}
+  window.location.href = 'home-test.html';
+}
+
+// ── Matrix rain ────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('rain-canvas');
+  const ctx = canvas.getContext('2d');
+  const CHARS = "アイウエオカキクケコサシスセソ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+-/<>#$%";
+  const COLORS = ['#3ee8ff','#b06bff','#ff5fc9','#4c8bff','#28e6b8'];
+  const FS = 14;
+  let columns, drops, colColors;
+  function resize() {
+    canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+    columns=Math.floor(canvas.width/FS);
+    drops=Array(columns).fill(1);
+    colColors=Array.from({length:columns},()=>COLORS[Math.floor(Math.random()*COLORS.length)]);
+  }
+  function draw() {
+    ctx.fillStyle='rgba(7,10,8,0.035)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.font=FS+'px JetBrains Mono,monospace';
+    for(let i=0;i<columns;i++){
+      ctx.fillStyle=colColors[i];
+      ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],i*FS,drops[i]*FS);
+      if(drops[i]*FS>canvas.height&&Math.random()>0.975)drops[i]=0;
+      drops[i]++;
+    }
+  }
+  window.addEventListener('resize',resize); resize(); setInterval(draw,55);
+})();
+
+boot();
+
+</script>
+</body>
+</html>
