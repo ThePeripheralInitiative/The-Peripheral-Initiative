@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dis-Go — The Peripheral Initiative</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Own the music. Don't rent it. Dis-Go turns record shops into a map — walk in, scan what you find, and keep a collection that's actually yours. In development.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Peripheral Initiative">
+<meta property="og:title" content="Dis-Go — Own the music. Don't rent it.">
+<meta property="og:description" content="Record shops as a map. Scan what you find. Keep a collection that's actually yours.">
+<meta property="og:image" content="https://theperipheralinitiative.com/og-image.png">
+<meta property="og:url" content="https://theperipheralinitiative.com/dis-go.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dis-Go — Own the music. Don't rent it.">
+<meta name="twitter:description" content="Record shops as a map. Scan what you find. Keep a collection that's actually yours.">
+<meta name="twitter:image" content="https://theperipheralinitiative.com/og-image.png">
+<meta name="theme-color" content="#070a08">
+<style>
+/* ==========================================================
+   Palette inherited from the rest of the site, with one
+   deliberate inversion: green is The Peripheral Initiative,
+   GOLD is Dis-Go. That distinction already existed in the
+   design notes and it earns its keep here — a visitor can see
+   at a glance that this is a different product in the same
+   house, without a single word explaining it.
+   ========================================================== */
+:root{
+  --void:#070a08; --panel:#0e140f; --panel-light:#162018;
+  --matrix:#2fe374; --decay:#123821; --resolved:#e2ede4;
+  --muted:#6f8577; --gold:#ffd76a; --gold-dim:#8a7431;
+  --cyan:#3ee8ff; --violet:#b06bff; --magenta:#ff5fc9;
+  --azure:#4c8bff; --teal:#28e6b8;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--void);color:var(--resolved);
+  font-family:'JetBrains Mono',monospace;line-height:1.7;
+  -webkit-font-smoothing:antialiased;}
+
+/* ---- header ---- */
+header{position:sticky;top:0;z-index:40;background:rgba(7,10,8,.97);
+  border-bottom:1px solid var(--decay);display:flex;align-items:center;
+  justify-content:space-between;padding:10px 20px;gap:16px;flex-wrap:wrap;}
+.brand-link{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-name{font-weight:700;font-size:.86rem;color:var(--matrix);
+  letter-spacing:.05em;text-shadow:0 0 12px rgba(47,227,116,.3);}
+nav{display:flex;gap:2px;flex-wrap:wrap;}
+.nav-btn{background:transparent;border:none;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.06em;
+  padding:7px 12px;border-radius:6px;cursor:pointer;text-decoration:none;
+  transition:color .15s,background .15s;}
+.nav-btn:hover{color:var(--resolved);background:var(--panel);}
+.nav-btn:focus-visible{outline:1px solid var(--matrix);outline-offset:2px;}
+.nav-btn.here{color:var(--gold);background:rgba(255,215,106,.08);}
+
+/* ---- layout ---- */
+.wrap{max-width:940px;margin:0 auto;padding:0 20px;}
+section{padding:64px 0;border-bottom:1px solid var(--decay);}
+section:last-of-type{border-bottom:none;}
+.eyebrow{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:14px;}
+
+/* ---- hero ---- */
+.hero{padding:72px 0 64px;}
+.hero-grid{display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start;}
+.stance{font-size:2.1rem;font-weight:700;line-height:1.25;
+  letter-spacing:-.02em;color:var(--gold);margin-bottom:18px;}
+.stance span{color:var(--resolved);display:block;}
+.hero-lede{font-size:.92rem;color:#c3d2c7;max-width:44ch;margin-bottom:22px;}
+.hero-note{font-size:.72rem;color:var(--muted);max-width:48ch;}
+
+/* ---- the signature element: a real scan result ----
+   This is the most characteristic artifact in Dis-Go's world. It
+   explains the whole product without a feature list: you scanned a
+   record, and here is exactly why it was worth what it was worth.
+   Every number is the real scoring model, not a mock-up. */
+.scan-card{background:var(--panel);border:1px solid var(--decay);
+  border-radius:12px;padding:20px;}
+.scan-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.pin{position:relative;flex:0 0 auto;width:34px;height:34px;
+  border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  background:conic-gradient(from 205deg,var(--cyan),var(--violet),
+    var(--magenta),var(--azure),var(--teal),var(--cyan));
+  display:flex;align-items:center;justify-content:center;}
+.pin::before{content:'';width:58%;height:58%;border-radius:50%;background:var(--panel);}
+.pin::after{content:'';position:absolute;width:18%;height:18%;
+  border-radius:50%;background:var(--gold);}
+.scan-title{font-size:.9rem;font-weight:700;line-height:1.3;}
+.scan-sub{font-size:.66rem;color:var(--muted);}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
+.tag{font-size:.58rem;letter-spacing:.05em;padding:3px 8px;border-radius:999px;
+  font-weight:700;}
+.t-fmt{background:rgba(76,139,255,.15);color:var(--azure);}
+.t-prs{background:rgba(176,107,255,.15);color:var(--violet);}
+.t-exc{background:rgba(255,215,106,.15);color:var(--gold);}
+.t-imp{background:rgba(40,230,184,.15);color:var(--teal);}
+.stack{border-top:1px solid var(--decay);padding-top:12px;}
+.row{display:flex;justify-content:space-between;font-size:.74rem;
+  color:var(--muted);padding:4px 0;}
+.row.total{border-top:1px solid var(--decay);margin-top:8px;padding-top:10px;
+  color:var(--gold);font-weight:700;font-size:.95rem;}
+
+/* ---- steps: a genuine sequence, so numbering carries meaning ---- */
+h2{font-size:1.25rem;font-weight:700;color:var(--matrix);
+  letter-spacing:-.01em;margin-bottom:8px;}
+.sec-lede{font-size:.82rem;color:var(--muted);max-width:60ch;margin-bottom:32px;}
+.steps{display:grid;gap:1px;background:var(--decay);
+  border:1px solid var(--decay);border-radius:10px;overflow:hidden;}
+.step{background:var(--panel);padding:22px 24px;display:grid;
+  grid-template-columns:auto 1fr;gap:20px;align-items:baseline;}
+.step-n{font-size:1.6rem;font-weight:700;color:var(--gold-dim);
+  line-height:1;min-width:2ch;}
+.step-t{font-size:.92rem;font-weight:700;margin-bottom:5px;}
+.step-b{font-size:.78rem;color:#c3d2c7;}
+
+/* ---- formats ---- */
+.fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;}
+.fmt{background:var(--panel);border:1px solid var(--decay);
+  border-radius:10px;padding:18px;}
+.fmt-pts{font-size:1.5rem;font-weight:700;color:var(--gold);line-height:1;}
+.fmt-lbl{font-size:.66rem;color:var(--muted);margin-top:2px;}
+.fmt-n{font-size:.84rem;font-weight:700;margin-top:12px;}
+
+/* ---- status ---- */
+.status{background:rgba(255,215,106,.06);border:1px solid rgba(255,215,106,.28);
+  border-radius:10px;padding:22px 24px;}
+.status h3{font-size:.92rem;color:var(--gold);margin-bottom:8px;}
+.status p{font-size:.8rem;color:#c3d2c7;max-width:62ch;}
+.status p + p{margin-top:10px;}
+.status a{color:var(--matrix);}
+
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 20px;
+  border-radius:8px;font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:.76rem;text-decoration:none;border:1px solid transparent;
+  transition:background .15s,border-color .15s,color .15s;}
+.btn-p{background:var(--matrix);color:var(--void);border-color:var(--matrix);}
+.btn-p:hover{background:#b6ffd8;}
+.btn-s{background:transparent;color:var(--resolved);border-color:var(--decay);}
+.btn-s:hover{border-color:var(--muted);}
+.btn:focus-visible{outline:1px solid var(--gold);outline-offset:2px;}
+
+/* ---- footer ---- */
+footer{border-top:1px solid var(--decay);padding:30px 20px 60px;}
+.fin{max-width:940px;margin:0 auto;font-size:.66rem;color:var(--muted);
+  line-height:1.9;}
+.flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
+.flinks a{color:var(--muted);text-decoration:none;font-size:.7rem;}
+.flinks a:hover{color:var(--matrix);}
+.disclaim{margin-top:12px;font-size:.62rem;opacity:.8;max-width:70ch;}
+
+@media(max-width:760px){
+  .hero-grid{grid-template-columns:1fr;gap:32px;}
+  .stance{font-size:1.65rem;}
+  .step{grid-template-columns:1fr;gap:6px;}
+  .step-n{font-size:1.1rem;}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="home.html" class="brand-link">
+    <img src="pi-logo.png" width="30" height="30" alt="" style="display:block;flex-shrink:0;">
+    <span class="brand-name">THE PERIPHERAL INITIATIVE</span>
+  </a>
+  <nav>
+    <!-- These were href="#" on the old page, which made this a dead end:
+         you could reach Dis-Go and never get back. They now deep-link
+         into the relevant part of home.html. -->
+    <a class="nav-btn" href="home.html#forum">Forum</a>
+    <a class="nav-btn" href="home.html#artists">Artists &amp; Labels</a>
+    <a class="nav-btn" href="home.html#about">About Us</a>
+    <a class="nav-btn" href="home.html#explore">Explore</a>
+    <a class="nav-btn here" href="dis-go.html" aria-current="page">Dis-Go</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">The app</div>
+        <h1 class="stance">Own the music.<span>Don't rent it.</span></h1>
+        <p class="hero-lede">Dis-Go turns record shops into a map. Walk in, scan
+        what you find, and keep a collection that stays yours whether or not
+        anyone's licensing deal survives the year.</p>
+        <p class="hero-note">Built for electronic music, open to everything.
+        Points come from what a record actually is — the format, the pressing,
+        how far it travelled to reach that shelf.</p>
+      </div>
+
+      <!-- One real scan, scored. Nothing here is invented: this is the
+           scoring model exactly as specified. -->
+      <div class="scan-card">
+        <div class="scan-head">
+          <span class="pin" aria-hidden="true"></span>
+          <div>
+            <div class="scan-title">Discovery</div>
+            <div class="scan-sub">Daft Punk &middot; 2001 original press</div>
+          </div>
+        </div>
+        <div class="tags">
+          <span class="tag t-fmt">VINYL</span>
+          <span class="tag t-prs">1ST PRESS &times;1.5</span>
+          <span class="tag t-exc">LIMITED &times;2</span>
+          <span class="tag t-imp">IMPORT &times;1.5</span>
+        </div>
+        <div class="stack">
+          <div class="row"><span>Base (vinyl)</span><span>25</span></div>
+          <div class="row"><span>First pressing</span><span>&times;1.5</span></div>
+          <div class="row"><span>Limited edition</span><span>&times;2</span></div>
+          <div class="row"><span>Regional import</span><span>&times;1.5</span></div>
+          <div class="row total"><span>Earned</span><span>112.5</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">How it works</div>
+    <h2>Three things, in order</h2>
+    <p class="sec-lede">The order matters, which is the whole point — you can't
+    skip to the end from your sofa.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div>
+          <div class="step-t">Go somewhere</div>
+          <div class="step-b">Shops appear on a map. Checking in needs your
+          actual location, confirmed by GPS, because the record you're standing
+          in front of is the record that counts.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div>
+          <div class="step-t">Scan what you find</div>
+          <div class="step-b">Point the camera at a barcode. Dis-Go reads the
+          release — artist, format, pressing, whether it was pressed for the
+          market you're standing in — and scores it.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div>
+          <div class="step-t">Keep it</div>
+          <div class="step-b">Your collection is a record of places you went and
+          things you held. Browsing without buying counts. That's what record
+          shops are for.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What counts</div>
+    <h2>Formats, and what they're worth</h2>
+    <p class="sec-lede">Base points before multipliers. A standard CD is ten
+    points; a first-press limited import on vinyl is a hundred and twelve.</p>
+    <div class="fmt-grid">
+      <div class="fmt">
+        <div class="fmt-pts">25</div><div class="fmt-lbl">base points</div>
+        <div class="fmt-n">Vinyl</div>
+      </div>
+      <div class="fmt">
+        <div class="fmt-pts">10</div><div class="fmt-lbl">base points</div>
+        <div class="fmt-n">CD</div>
+      </div>
+      <div class="fmt">
+        <div class="fmt-pts">10</div><div class="fmt-lbl">base points</div>
+        <div class="fmt-n">Documentary</div>
+      </div>
+      <div class="fmt">
+        <div class="fmt-pts">10</div><div class="fmt-lbl">base points</div>
+        <div class="fmt-n">Live set</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Status</div>
+    <h2>Not out yet</h2>
+    <div class="status">
+      <h3>Dis-Go is in development</h3>
+      <p>There's no download link on this page because there's nothing to
+      download. The design is finished — every screen has been built and tested
+      — and the app itself is being built now, for iPhone and Android together.</p>
+      <p>The forum is live today, and it's where this gets figured out in the
+      open. If you collect physical music, or you run a shop that sells it, that
+      conversation is the useful place to be.</p>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-p" href="home.html#forum">Join the forum</a>
+      <a class="btn btn-s" href="home.html#about">About the Initiative</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="fin">
+    <div class="flinks">
+      <a href="home.html">Home</a>
+      <a href="home.html#forum">Forum</a>
+      <a href="home.html#artists">Artists &amp; Labels</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="guidelines.html">Community Guidelines</a>
+      <a href="dmca.html">Copyright &amp; DMCA</a>
+    </div>
+    The Peripheral Initiative &middot; Dis-Go is in development and not yet
+    available.
+    <div class="disclaim">Dis-Go is not affiliated with, endorsed by, or
+    connected to Discogs. Release information shown in the app comes from
+    openly licensed catalogue data; cover images are never taken from
+    third-party services.</div>
+  </div>
+</footer>
+
+</body>
+</html>
